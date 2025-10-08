@@ -1,0 +1,41 @@
+Inicio
+  Abrir arquivo fonte
+  Enquanto não acabou o arquivo fonte Faça:
+    Tratar Comentário e Separadores
+    Encontrar Lexema
+    Classificar Token
+    Colocar Token na Lista de Tokens
+  Fechar arquivo fonte
+Fim
+
+Tratar Comentário e Separadores
+  Inicio
+    Enquanto separador ou inicio de comentário Faça:
+      Se inicio de comentário Então:
+        Enquanto não for fim de comentário Faça:
+          pular comentário
+      Se separador Então:
+        pular separador
+  Fim
+
+Encontrar Lexema
+  Inicio
+    lexema é inicializado com caractere de entrada
+    Se caractere de entrada é letra Então: {
+      Enquanto letra ou número Faça: 
+        Concatenar no lexema
+    }
+    Senão 
+      Se caractere de entrada é número Então: {
+        Enquanto número ou 1o ponto Faça:
+          Concatenar no lexema
+      } 
+      Senão 
+        Se caractere de entrada é inicio de token Então: {
+          Enquanto formar token Faça:
+            Concatenar no lexema
+        }
+        Senão 
+          o lexema é o caractere de entrada
+    retornar lexema
+  Fim
