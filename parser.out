@@ -1,0 +1,3056 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    DOTDOT
+    ERROR
+
+Grammar
+
+Rule 0     S' -> PROGRAMA
+Rule 1     PROGRAMA -> PROGRAM ID SEMICOLON CORPO
+Rule 2     CORPO -> DECLARACOES BEGIN LISTA_COM END
+Rule 3     CORPO -> BEGIN LISTA_COM END
+Rule 4     DECLARACOES -> DEF_CONST DEF_TIPOS DEF_VAR LISTA_FUNC
+Rule 5     DECLARACOES -> empty
+Rule 6     DEF_CONST -> CONST LISTA_CONST
+Rule 7     DEF_CONST -> empty
+Rule 8     LISTA_CONST -> CONSTANTE SEMICOLON LISTA_CONST
+Rule 9     LISTA_CONST -> CONSTANTE SEMICOLON
+Rule 10    LISTA_CONST -> empty
+Rule 11    CONSTANTE -> ID ASSIGN CONST_VALOR SEMICOLON
+Rule 12    CONST_VALOR -> STRING
+Rule 13    CONST_VALOR -> EXP_MAT
+Rule 14    DEF_TIPOS -> TYPE LISTA_TIPOS
+Rule 15    DEF_TIPOS -> empty
+Rule 16    LISTA_TIPOS -> TIPO SEMICOLON LISTA_TIPOS
+Rule 17    LISTA_TIPOS -> TIPO SEMICOLON
+Rule 18    LISTA_TIPOS -> empty
+Rule 19    TIPO -> ID ASSIGN TIPO_DADO
+Rule 20    TIPO_DADO -> INTEGER
+Rule 21    TIPO_DADO -> REAL
+Rule 22    TIPO_DADO -> ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO
+Rule 23    TIPO_DADO -> RECORD LISTA_VAR END
+Rule 24    TIPO_DADO -> ID
+Rule 25    DEF_VAR -> VAR LISTA_VAR
+Rule 26    DEF_VAR -> empty
+Rule 27    LISTA_VAR -> VARIAVEL SEMICOLON LISTA_VAR
+Rule 28    LISTA_VAR -> VARIAVEL SEMICOLON
+Rule 29    LISTA_VAR -> empty
+Rule 30    VARIAVEL -> LISTA_ID COLON TIPO_DADO
+Rule 31    LISTA_ID -> ID COMMA LISTA_ID
+Rule 32    LISTA_ID -> ID
+Rule 33    LISTA_ID -> empty
+Rule 34    LISTA_FUNC -> FUNCAO LISTA_FUNC
+Rule 35    LISTA_FUNC -> empty
+Rule 36    FUNCAO -> FUNCTION ID LPAREN PARAM_FORM RPAREN COLON TIPO_DADO BLOCO_FUNCAO
+Rule 37    FUNCAO -> FUNCTION ID LPAREN RPAREN COLON TIPO_DADO BLOCO_FUNCAO
+Rule 38    PARAM_FORM -> PARAM COMMA PARAM_FORM
+Rule 39    PARAM_FORM -> PARAM
+Rule 40    PARAM_FORM -> empty
+Rule 41    PARAM -> LISTA_ID COLON TIPO_DADO
+Rule 42    BLOCO_FUNCAO -> DEF_VAR BLOCO
+Rule 43    BLOCO_FUNCAO -> BLOCO
+Rule 44    BLOCO -> BEGIN LISTA_COM END
+Rule 45    BLOCO -> COMANDO
+Rule 46    LISTA_COM -> COMANDO SEMICOLON LISTA_COM
+Rule 47    LISTA_COM -> COMANDO SEMICOLON
+Rule 48    LISTA_COM -> empty
+Rule 49    COMANDO -> NOME ASSIGN VALOR
+Rule 50    COMANDO -> WHILE EXP_LOGICA BLOCO
+Rule 51    COMANDO -> IF EXP_LOGICA THEN BLOCO ELSE_OPT
+Rule 52    COMANDO -> WRITE LPAREN EXP_MAT RPAREN
+Rule 53    COMANDO -> WRITE LPAREN STRING RPAREN
+Rule 54    COMANDO -> READ LPAREN NOME RPAREN
+Rule 55    COMANDO -> BLOCO
+Rule 56    ELSE_OPT -> ELSE BLOCO
+Rule 57    ELSE_OPT -> empty
+Rule 58    VALOR -> EXP_MAT
+Rule 59    VALOR -> ID LISTA_ARG
+Rule 60    LISTA_ARG -> LPAREN LISTA_EXP RPAREN
+Rule 61    LISTA_ARG -> LPAREN RPAREN
+Rule 62    LISTA_EXP -> EXP_MAT COMMA LISTA_EXP
+Rule 63    LISTA_EXP -> EXP_MAT
+Rule 64    LISTA_EXP -> empty
+Rule 65    EXP_LOGICA -> EXP_REL
+Rule 66    EXP_REL -> EXP_MAT OP_REL EXP_MAT
+Rule 67    EXP_REL -> EXP_MAT
+Rule 68    OP_REL -> EQUALS
+Rule 69    OP_REL -> DIFF
+Rule 70    OP_REL -> LT
+Rule 71    OP_REL -> LE
+Rule 72    OP_REL -> GT
+Rule 73    OP_REL -> GE
+Rule 74    EXP_MAT -> TERMO PLUS EXP_MAT
+Rule 75    EXP_MAT -> TERMO MINUS EXP_MAT
+Rule 76    EXP_MAT -> TERMO
+Rule 77    TERMO -> FATOR TIMES TERMO
+Rule 78    TERMO -> FATOR DIVIDE TERMO
+Rule 79    TERMO -> FATOR
+Rule 80    FATOR -> PARAMETRO
+Rule 81    FATOR -> LPAREN EXP_MAT RPAREN
+Rule 82    PARAMETRO -> NOME
+Rule 83    PARAMETRO -> NUM_INT
+Rule 84    PARAMETRO -> NUM_REAL
+Rule 85    NOME -> ID NOME_CONT
+Rule 86    NOME -> ID
+Rule 87    NOME_CONT -> DOT ID NOME_CONT
+Rule 88    NOME_CONT -> LBRACKET EXP_MAT RBRACKET
+Rule 89    NOME_CONT -> empty
+Rule 90    empty -> <empty>
+
+Terminals, with rules where they appear
+
+ARRAY                : 22
+ASSIGN               : 11 19 49
+BEGIN                : 2 3 44
+COLON                : 30 36 37 41
+COMMA                : 31 38 62
+CONST                : 6
+DIFF                 : 69
+DIVIDE               : 78
+DOT                  : 87
+DOTDOT               : 
+ELSE                 : 56
+END                  : 2 3 23 44
+EQUALS               : 68
+ERROR                : 
+FUNCTION             : 36 37
+GE                   : 73
+GT                   : 72
+ID                   : 1 11 19 24 31 32 36 37 59 85 86 87
+IF                   : 51
+INTEGER              : 20
+LBRACKET             : 22 88
+LE                   : 71
+LPAREN               : 36 37 52 53 54 60 61 81
+LT                   : 70
+MINUS                : 75
+NUM_INT              : 22 83
+NUM_REAL             : 84
+OF                   : 22
+PLUS                 : 74
+PROGRAM              : 1
+RBRACKET             : 22 88
+READ                 : 54
+REAL                 : 21
+RECORD               : 23
+RPAREN               : 36 37 52 53 54 60 61 81
+SEMICOLON            : 1 8 9 11 16 17 27 28 46 47
+STRING               : 12 53
+THEN                 : 51
+TIMES                : 77
+TYPE                 : 14
+VAR                  : 25
+WHILE                : 50
+WRITE                : 52 53
+error                : 
+
+Nonterminals, with rules where they appear
+
+BLOCO                : 42 43 50 51 55 56
+BLOCO_FUNCAO         : 36 37
+COMANDO              : 45 46 47
+CONSTANTE            : 8 9
+CONST_VALOR          : 11
+CORPO                : 1
+DECLARACOES          : 2
+DEF_CONST            : 4
+DEF_TIPOS            : 4
+DEF_VAR              : 4 42
+ELSE_OPT             : 51
+EXP_LOGICA           : 50 51
+EXP_MAT              : 13 52 58 62 63 66 66 67 74 75 81 88
+EXP_REL              : 65
+FATOR                : 77 78 79
+FUNCAO               : 34
+LISTA_ARG            : 59
+LISTA_COM            : 2 3 44 46
+LISTA_CONST          : 6 8
+LISTA_EXP            : 60 62
+LISTA_FUNC           : 4 34
+LISTA_ID             : 30 31 41
+LISTA_TIPOS          : 14 16
+LISTA_VAR            : 23 25 27
+NOME                 : 49 54 82
+NOME_CONT            : 85 87
+OP_REL               : 66
+PARAM                : 38 39
+PARAMETRO            : 80
+PARAM_FORM           : 36 38
+PROGRAMA             : 0
+TERMO                : 74 75 76 77 78
+TIPO                 : 16 17
+TIPO_DADO            : 19 22 30 36 37 41
+VALOR                : 49
+VARIAVEL             : 27 28
+empty                : 5 7 10 15 18 26 29 33 35 40 48 57 64 89
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . PROGRAMA
+    (1) PROGRAMA -> . PROGRAM ID SEMICOLON CORPO
+
+    PROGRAM         shift and go to state 2
+
+    PROGRAMA                       shift and go to state 1
+
+state 1
+
+    (0) S' -> PROGRAMA .
+
+
+
+state 2
+
+    (1) PROGRAMA -> PROGRAM . ID SEMICOLON CORPO
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) PROGRAMA -> PROGRAM ID . SEMICOLON CORPO
+
+    SEMICOLON       shift and go to state 4
+
+
+state 4
+
+    (1) PROGRAMA -> PROGRAM ID SEMICOLON . CORPO
+    (2) CORPO -> . DECLARACOES BEGIN LISTA_COM END
+    (3) CORPO -> . BEGIN LISTA_COM END
+    (4) DECLARACOES -> . DEF_CONST DEF_TIPOS DEF_VAR LISTA_FUNC
+    (5) DECLARACOES -> . empty
+    (6) DEF_CONST -> . CONST LISTA_CONST
+    (7) DEF_CONST -> . empty
+    (90) empty -> .
+
+  ! shift/reduce conflict for BEGIN resolved as shift
+    BEGIN           shift and go to state 7
+    CONST           shift and go to state 10
+    TYPE            reduce using rule 90 (empty -> .)
+    VAR             reduce using rule 90 (empty -> .)
+    FUNCTION        reduce using rule 90 (empty -> .)
+
+  ! BEGIN           [ reduce using rule 90 (empty -> .) ]
+
+    CORPO                          shift and go to state 5
+    DECLARACOES                    shift and go to state 6
+    DEF_CONST                      shift and go to state 8
+    empty                          shift and go to state 9
+
+state 5
+
+    (1) PROGRAMA -> PROGRAM ID SEMICOLON CORPO .
+
+    $end            reduce using rule 1 (PROGRAMA -> PROGRAM ID SEMICOLON CORPO .)
+
+
+state 6
+
+    (2) CORPO -> DECLARACOES . BEGIN LISTA_COM END
+
+    BEGIN           shift and go to state 11
+
+
+state 7
+
+    (3) CORPO -> BEGIN . LISTA_COM END
+    (46) LISTA_COM -> . COMANDO SEMICOLON LISTA_COM
+    (47) LISTA_COM -> . COMANDO SEMICOLON
+    (48) LISTA_COM -> . empty
+    (49) COMANDO -> . NOME ASSIGN VALOR
+    (50) COMANDO -> . WHILE EXP_LOGICA BLOCO
+    (51) COMANDO -> . IF EXP_LOGICA THEN BLOCO ELSE_OPT
+    (52) COMANDO -> . WRITE LPAREN EXP_MAT RPAREN
+    (53) COMANDO -> . WRITE LPAREN STRING RPAREN
+    (54) COMANDO -> . READ LPAREN NOME RPAREN
+    (55) COMANDO -> . BLOCO
+    (90) empty -> .
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+    (44) BLOCO -> . BEGIN LISTA_COM END
+    (45) BLOCO -> . COMANDO
+
+    WHILE           shift and go to state 17
+    IF              shift and go to state 19
+    WRITE           shift and go to state 20
+    READ            shift and go to state 21
+    END             reduce using rule 90 (empty -> .)
+    ID              shift and go to state 22
+    BEGIN           shift and go to state 12
+
+    LISTA_COM                      shift and go to state 13
+    COMANDO                        shift and go to state 14
+    empty                          shift and go to state 15
+    NOME                           shift and go to state 16
+    BLOCO                          shift and go to state 18
+
+state 8
+
+    (4) DECLARACOES -> DEF_CONST . DEF_TIPOS DEF_VAR LISTA_FUNC
+    (14) DEF_TIPOS -> . TYPE LISTA_TIPOS
+    (15) DEF_TIPOS -> . empty
+    (90) empty -> .
+
+    TYPE            shift and go to state 24
+    VAR             reduce using rule 90 (empty -> .)
+    FUNCTION        reduce using rule 90 (empty -> .)
+    BEGIN           reduce using rule 90 (empty -> .)
+
+    DEF_TIPOS                      shift and go to state 23
+    empty                          shift and go to state 25
+
+state 9
+
+    (5) DECLARACOES -> empty .
+    (7) DEF_CONST -> empty .
+
+  ! reduce/reduce conflict for BEGIN resolved using rule 5 (DECLARACOES -> empty .)
+    BEGIN           reduce using rule 5 (DECLARACOES -> empty .)
+    TYPE            reduce using rule 7 (DEF_CONST -> empty .)
+    VAR             reduce using rule 7 (DEF_CONST -> empty .)
+    FUNCTION        reduce using rule 7 (DEF_CONST -> empty .)
+
+  ! BEGIN           [ reduce using rule 7 (DEF_CONST -> empty .) ]
+
+
+state 10
+
+    (6) DEF_CONST -> CONST . LISTA_CONST
+    (8) LISTA_CONST -> . CONSTANTE SEMICOLON LISTA_CONST
+    (9) LISTA_CONST -> . CONSTANTE SEMICOLON
+    (10) LISTA_CONST -> . empty
+    (11) CONSTANTE -> . ID ASSIGN CONST_VALOR SEMICOLON
+    (90) empty -> .
+
+    ID              shift and go to state 29
+    TYPE            reduce using rule 90 (empty -> .)
+    VAR             reduce using rule 90 (empty -> .)
+    FUNCTION        reduce using rule 90 (empty -> .)
+    BEGIN           reduce using rule 90 (empty -> .)
+
+    LISTA_CONST                    shift and go to state 26
+    CONSTANTE                      shift and go to state 27
+    empty                          shift and go to state 28
+
+state 11
+
+    (2) CORPO -> DECLARACOES BEGIN . LISTA_COM END
+    (46) LISTA_COM -> . COMANDO SEMICOLON LISTA_COM
+    (47) LISTA_COM -> . COMANDO SEMICOLON
+    (48) LISTA_COM -> . empty
+    (49) COMANDO -> . NOME ASSIGN VALOR
+    (50) COMANDO -> . WHILE EXP_LOGICA BLOCO
+    (51) COMANDO -> . IF EXP_LOGICA THEN BLOCO ELSE_OPT
+    (52) COMANDO -> . WRITE LPAREN EXP_MAT RPAREN
+    (53) COMANDO -> . WRITE LPAREN STRING RPAREN
+    (54) COMANDO -> . READ LPAREN NOME RPAREN
+    (55) COMANDO -> . BLOCO
+    (90) empty -> .
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+    (44) BLOCO -> . BEGIN LISTA_COM END
+    (45) BLOCO -> . COMANDO
+
+    WHILE           shift and go to state 17
+    IF              shift and go to state 19
+    WRITE           shift and go to state 20
+    READ            shift and go to state 21
+    END             reduce using rule 90 (empty -> .)
+    ID              shift and go to state 22
+    BEGIN           shift and go to state 12
+
+    LISTA_COM                      shift and go to state 30
+    COMANDO                        shift and go to state 14
+    empty                          shift and go to state 15
+    NOME                           shift and go to state 16
+    BLOCO                          shift and go to state 18
+
+state 12
+
+    (44) BLOCO -> BEGIN . LISTA_COM END
+    (46) LISTA_COM -> . COMANDO SEMICOLON LISTA_COM
+    (47) LISTA_COM -> . COMANDO SEMICOLON
+    (48) LISTA_COM -> . empty
+    (49) COMANDO -> . NOME ASSIGN VALOR
+    (50) COMANDO -> . WHILE EXP_LOGICA BLOCO
+    (51) COMANDO -> . IF EXP_LOGICA THEN BLOCO ELSE_OPT
+    (52) COMANDO -> . WRITE LPAREN EXP_MAT RPAREN
+    (53) COMANDO -> . WRITE LPAREN STRING RPAREN
+    (54) COMANDO -> . READ LPAREN NOME RPAREN
+    (55) COMANDO -> . BLOCO
+    (90) empty -> .
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+    (44) BLOCO -> . BEGIN LISTA_COM END
+    (45) BLOCO -> . COMANDO
+
+    WHILE           shift and go to state 17
+    IF              shift and go to state 19
+    WRITE           shift and go to state 20
+    READ            shift and go to state 21
+    END             reduce using rule 90 (empty -> .)
+    ID              shift and go to state 22
+    BEGIN           shift and go to state 12
+
+    LISTA_COM                      shift and go to state 31
+    COMANDO                        shift and go to state 14
+    empty                          shift and go to state 15
+    NOME                           shift and go to state 16
+    BLOCO                          shift and go to state 18
+
+state 13
+
+    (3) CORPO -> BEGIN LISTA_COM . END
+
+    END             shift and go to state 32
+
+
+state 14
+
+    (46) LISTA_COM -> COMANDO . SEMICOLON LISTA_COM
+    (47) LISTA_COM -> COMANDO . SEMICOLON
+    (45) BLOCO -> COMANDO .
+
+  ! shift/reduce conflict for SEMICOLON resolved as shift
+    SEMICOLON       shift and go to state 33
+
+  ! SEMICOLON       [ reduce using rule 45 (BLOCO -> COMANDO .) ]
+
+
+state 15
+
+    (48) LISTA_COM -> empty .
+
+    END             reduce using rule 48 (LISTA_COM -> empty .)
+
+
+state 16
+
+    (49) COMANDO -> NOME . ASSIGN VALOR
+
+    ASSIGN          shift and go to state 34
+
+
+state 17
+
+    (50) COMANDO -> WHILE . EXP_LOGICA BLOCO
+    (65) EXP_LOGICA -> . EXP_REL
+    (66) EXP_REL -> . EXP_MAT OP_REL EXP_MAT
+    (67) EXP_REL -> . EXP_MAT
+    (74) EXP_MAT -> . TERMO PLUS EXP_MAT
+    (75) EXP_MAT -> . TERMO MINUS EXP_MAT
+    (76) EXP_MAT -> . TERMO
+    (77) TERMO -> . FATOR TIMES TERMO
+    (78) TERMO -> . FATOR DIVIDE TERMO
+    (79) TERMO -> . FATOR
+    (80) FATOR -> . PARAMETRO
+    (81) FATOR -> . LPAREN EXP_MAT RPAREN
+    (82) PARAMETRO -> . NOME
+    (83) PARAMETRO -> . NUM_INT
+    (84) PARAMETRO -> . NUM_REAL
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    LPAREN          shift and go to state 41
+    NUM_INT         shift and go to state 43
+    NUM_REAL        shift and go to state 44
+    ID              shift and go to state 22
+
+    EXP_LOGICA                     shift and go to state 35
+    EXP_REL                        shift and go to state 36
+    EXP_MAT                        shift and go to state 37
+    TERMO                          shift and go to state 38
+    FATOR                          shift and go to state 39
+    PARAMETRO                      shift and go to state 40
+    NOME                           shift and go to state 42
+
+state 18
+
+    (55) COMANDO -> BLOCO .
+
+    SEMICOLON       reduce using rule 55 (COMANDO -> BLOCO .)
+
+
+state 19
+
+    (51) COMANDO -> IF . EXP_LOGICA THEN BLOCO ELSE_OPT
+    (65) EXP_LOGICA -> . EXP_REL
+    (66) EXP_REL -> . EXP_MAT OP_REL EXP_MAT
+    (67) EXP_REL -> . EXP_MAT
+    (74) EXP_MAT -> . TERMO PLUS EXP_MAT
+    (75) EXP_MAT -> . TERMO MINUS EXP_MAT
+    (76) EXP_MAT -> . TERMO
+    (77) TERMO -> . FATOR TIMES TERMO
+    (78) TERMO -> . FATOR DIVIDE TERMO
+    (79) TERMO -> . FATOR
+    (80) FATOR -> . PARAMETRO
+    (81) FATOR -> . LPAREN EXP_MAT RPAREN
+    (82) PARAMETRO -> . NOME
+    (83) PARAMETRO -> . NUM_INT
+    (84) PARAMETRO -> . NUM_REAL
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    LPAREN          shift and go to state 41
+    NUM_INT         shift and go to state 43
+    NUM_REAL        shift and go to state 44
+    ID              shift and go to state 22
+
+    EXP_LOGICA                     shift and go to state 45
+    EXP_REL                        shift and go to state 36
+    EXP_MAT                        shift and go to state 37
+    TERMO                          shift and go to state 38
+    FATOR                          shift and go to state 39
+    PARAMETRO                      shift and go to state 40
+    NOME                           shift and go to state 42
+
+state 20
+
+    (52) COMANDO -> WRITE . LPAREN EXP_MAT RPAREN
+    (53) COMANDO -> WRITE . LPAREN STRING RPAREN
+
+    LPAREN          shift and go to state 46
+
+
+state 21
+
+    (54) COMANDO -> READ . LPAREN NOME RPAREN
+
+    LPAREN          shift and go to state 47
+
+
+state 22
+
+    (85) NOME -> ID . NOME_CONT
+    (86) NOME -> ID .
+    (87) NOME_CONT -> . DOT ID NOME_CONT
+    (88) NOME_CONT -> . LBRACKET EXP_MAT RBRACKET
+    (89) NOME_CONT -> . empty
+    (90) empty -> .
+
+  ! reduce/reduce conflict for ASSIGN resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for TIMES resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for DIVIDE resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for PLUS resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for MINUS resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for EQUALS resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for DIFF resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for LT resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for LE resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for GT resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for GE resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for BEGIN resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for WHILE resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for IF resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for WRITE resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for READ resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for ID resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for THEN resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for RPAREN resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for RBRACKET resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for ELSE resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for FUNCTION resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for COMMA resolved using rule 86 (NOME -> ID .)
+    ASSIGN          reduce using rule 86 (NOME -> ID .)
+    TIMES           reduce using rule 86 (NOME -> ID .)
+    DIVIDE          reduce using rule 86 (NOME -> ID .)
+    PLUS            reduce using rule 86 (NOME -> ID .)
+    MINUS           reduce using rule 86 (NOME -> ID .)
+    EQUALS          reduce using rule 86 (NOME -> ID .)
+    DIFF            reduce using rule 86 (NOME -> ID .)
+    LT              reduce using rule 86 (NOME -> ID .)
+    LE              reduce using rule 86 (NOME -> ID .)
+    GT              reduce using rule 86 (NOME -> ID .)
+    GE              reduce using rule 86 (NOME -> ID .)
+    BEGIN           reduce using rule 86 (NOME -> ID .)
+    WHILE           reduce using rule 86 (NOME -> ID .)
+    IF              reduce using rule 86 (NOME -> ID .)
+    WRITE           reduce using rule 86 (NOME -> ID .)
+    READ            reduce using rule 86 (NOME -> ID .)
+    ID              reduce using rule 86 (NOME -> ID .)
+    THEN            reduce using rule 86 (NOME -> ID .)
+    RPAREN          reduce using rule 86 (NOME -> ID .)
+    RBRACKET        reduce using rule 86 (NOME -> ID .)
+    SEMICOLON       reduce using rule 86 (NOME -> ID .)
+    ELSE            reduce using rule 86 (NOME -> ID .)
+    FUNCTION        reduce using rule 86 (NOME -> ID .)
+    COMMA           reduce using rule 86 (NOME -> ID .)
+    DOT             shift and go to state 49
+    LBRACKET        shift and go to state 50
+
+  ! ASSIGN          [ reduce using rule 90 (empty -> .) ]
+  ! TIMES           [ reduce using rule 90 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 90 (empty -> .) ]
+  ! PLUS            [ reduce using rule 90 (empty -> .) ]
+  ! MINUS           [ reduce using rule 90 (empty -> .) ]
+  ! EQUALS          [ reduce using rule 90 (empty -> .) ]
+  ! DIFF            [ reduce using rule 90 (empty -> .) ]
+  ! LT              [ reduce using rule 90 (empty -> .) ]
+  ! LE              [ reduce using rule 90 (empty -> .) ]
+  ! GT              [ reduce using rule 90 (empty -> .) ]
+  ! GE              [ reduce using rule 90 (empty -> .) ]
+  ! BEGIN           [ reduce using rule 90 (empty -> .) ]
+  ! WHILE           [ reduce using rule 90 (empty -> .) ]
+  ! IF              [ reduce using rule 90 (empty -> .) ]
+  ! WRITE           [ reduce using rule 90 (empty -> .) ]
+  ! READ            [ reduce using rule 90 (empty -> .) ]
+  ! ID              [ reduce using rule 90 (empty -> .) ]
+  ! THEN            [ reduce using rule 90 (empty -> .) ]
+  ! RPAREN          [ reduce using rule 90 (empty -> .) ]
+  ! RBRACKET        [ reduce using rule 90 (empty -> .) ]
+  ! SEMICOLON       [ reduce using rule 90 (empty -> .) ]
+  ! ELSE            [ reduce using rule 90 (empty -> .) ]
+  ! FUNCTION        [ reduce using rule 90 (empty -> .) ]
+  ! COMMA           [ reduce using rule 90 (empty -> .) ]
+
+    NOME_CONT                      shift and go to state 48
+    empty                          shift and go to state 51
+
+state 23
+
+    (4) DECLARACOES -> DEF_CONST DEF_TIPOS . DEF_VAR LISTA_FUNC
+    (25) DEF_VAR -> . VAR LISTA_VAR
+    (26) DEF_VAR -> . empty
+    (90) empty -> .
+
+    VAR             shift and go to state 53
+    FUNCTION        reduce using rule 90 (empty -> .)
+    BEGIN           reduce using rule 90 (empty -> .)
+
+    DEF_VAR                        shift and go to state 52
+    empty                          shift and go to state 54
+
+state 24
+
+    (14) DEF_TIPOS -> TYPE . LISTA_TIPOS
+    (16) LISTA_TIPOS -> . TIPO SEMICOLON LISTA_TIPOS
+    (17) LISTA_TIPOS -> . TIPO SEMICOLON
+    (18) LISTA_TIPOS -> . empty
+    (19) TIPO -> . ID ASSIGN TIPO_DADO
+    (90) empty -> .
+
+    ID              shift and go to state 58
+    VAR             reduce using rule 90 (empty -> .)
+    FUNCTION        reduce using rule 90 (empty -> .)
+    BEGIN           reduce using rule 90 (empty -> .)
+
+    LISTA_TIPOS                    shift and go to state 55
+    TIPO                           shift and go to state 56
+    empty                          shift and go to state 57
+
+state 25
+
+    (15) DEF_TIPOS -> empty .
+
+    VAR             reduce using rule 15 (DEF_TIPOS -> empty .)
+    FUNCTION        reduce using rule 15 (DEF_TIPOS -> empty .)
+    BEGIN           reduce using rule 15 (DEF_TIPOS -> empty .)
+
+
+state 26
+
+    (6) DEF_CONST -> CONST LISTA_CONST .
+
+    TYPE            reduce using rule 6 (DEF_CONST -> CONST LISTA_CONST .)
+    VAR             reduce using rule 6 (DEF_CONST -> CONST LISTA_CONST .)
+    FUNCTION        reduce using rule 6 (DEF_CONST -> CONST LISTA_CONST .)
+    BEGIN           reduce using rule 6 (DEF_CONST -> CONST LISTA_CONST .)
+
+
+state 27
+
+    (8) LISTA_CONST -> CONSTANTE . SEMICOLON LISTA_CONST
+    (9) LISTA_CONST -> CONSTANTE . SEMICOLON
+
+    SEMICOLON       shift and go to state 59
+
+
+state 28
+
+    (10) LISTA_CONST -> empty .
+
+    TYPE            reduce using rule 10 (LISTA_CONST -> empty .)
+    VAR             reduce using rule 10 (LISTA_CONST -> empty .)
+    FUNCTION        reduce using rule 10 (LISTA_CONST -> empty .)
+    BEGIN           reduce using rule 10 (LISTA_CONST -> empty .)
+
+
+state 29
+
+    (11) CONSTANTE -> ID . ASSIGN CONST_VALOR SEMICOLON
+
+    ASSIGN          shift and go to state 60
+
+
+state 30
+
+    (2) CORPO -> DECLARACOES BEGIN LISTA_COM . END
+
+    END             shift and go to state 61
+
+
+state 31
+
+    (44) BLOCO -> BEGIN LISTA_COM . END
+
+    END             shift and go to state 62
+
+
+state 32
+
+    (3) CORPO -> BEGIN LISTA_COM END .
+
+    $end            reduce using rule 3 (CORPO -> BEGIN LISTA_COM END .)
+
+
+state 33
+
+    (46) LISTA_COM -> COMANDO SEMICOLON . LISTA_COM
+    (47) LISTA_COM -> COMANDO SEMICOLON .
+    (46) LISTA_COM -> . COMANDO SEMICOLON LISTA_COM
+    (47) LISTA_COM -> . COMANDO SEMICOLON
+    (48) LISTA_COM -> . empty
+    (49) COMANDO -> . NOME ASSIGN VALOR
+    (50) COMANDO -> . WHILE EXP_LOGICA BLOCO
+    (51) COMANDO -> . IF EXP_LOGICA THEN BLOCO ELSE_OPT
+    (52) COMANDO -> . WRITE LPAREN EXP_MAT RPAREN
+    (53) COMANDO -> . WRITE LPAREN STRING RPAREN
+    (54) COMANDO -> . READ LPAREN NOME RPAREN
+    (55) COMANDO -> . BLOCO
+    (90) empty -> .
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+    (44) BLOCO -> . BEGIN LISTA_COM END
+    (45) BLOCO -> . COMANDO
+
+  ! reduce/reduce conflict for END resolved using rule 47 (LISTA_COM -> COMANDO SEMICOLON .)
+    END             reduce using rule 47 (LISTA_COM -> COMANDO SEMICOLON .)
+    WHILE           shift and go to state 17
+    IF              shift and go to state 19
+    WRITE           shift and go to state 20
+    READ            shift and go to state 21
+    ID              shift and go to state 22
+    BEGIN           shift and go to state 12
+
+  ! END             [ reduce using rule 90 (empty -> .) ]
+
+    COMANDO                        shift and go to state 14
+    LISTA_COM                      shift and go to state 63
+    empty                          shift and go to state 15
+    NOME                           shift and go to state 16
+    BLOCO                          shift and go to state 18
+
+state 34
+
+    (49) COMANDO -> NOME ASSIGN . VALOR
+    (58) VALOR -> . EXP_MAT
+    (59) VALOR -> . ID LISTA_ARG
+    (74) EXP_MAT -> . TERMO PLUS EXP_MAT
+    (75) EXP_MAT -> . TERMO MINUS EXP_MAT
+    (76) EXP_MAT -> . TERMO
+    (77) TERMO -> . FATOR TIMES TERMO
+    (78) TERMO -> . FATOR DIVIDE TERMO
+    (79) TERMO -> . FATOR
+    (80) FATOR -> . PARAMETRO
+    (81) FATOR -> . LPAREN EXP_MAT RPAREN
+    (82) PARAMETRO -> . NOME
+    (83) PARAMETRO -> . NUM_INT
+    (84) PARAMETRO -> . NUM_REAL
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    ID              shift and go to state 66
+    LPAREN          shift and go to state 41
+    NUM_INT         shift and go to state 43
+    NUM_REAL        shift and go to state 44
+
+    NOME                           shift and go to state 42
+    VALOR                          shift and go to state 64
+    EXP_MAT                        shift and go to state 65
+    TERMO                          shift and go to state 38
+    FATOR                          shift and go to state 39
+    PARAMETRO                      shift and go to state 40
+
+state 35
+
+    (50) COMANDO -> WHILE EXP_LOGICA . BLOCO
+    (44) BLOCO -> . BEGIN LISTA_COM END
+    (45) BLOCO -> . COMANDO
+    (49) COMANDO -> . NOME ASSIGN VALOR
+    (50) COMANDO -> . WHILE EXP_LOGICA BLOCO
+    (51) COMANDO -> . IF EXP_LOGICA THEN BLOCO ELSE_OPT
+    (52) COMANDO -> . WRITE LPAREN EXP_MAT RPAREN
+    (53) COMANDO -> . WRITE LPAREN STRING RPAREN
+    (54) COMANDO -> . READ LPAREN NOME RPAREN
+    (55) COMANDO -> . BLOCO
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    BEGIN           shift and go to state 12
+    WHILE           shift and go to state 17
+    IF              shift and go to state 19
+    WRITE           shift and go to state 20
+    READ            shift and go to state 21
+    ID              shift and go to state 22
+
+    BLOCO                          shift and go to state 67
+    COMANDO                        shift and go to state 68
+    NOME                           shift and go to state 16
+
+state 36
+
+    (65) EXP_LOGICA -> EXP_REL .
+
+    BEGIN           reduce using rule 65 (EXP_LOGICA -> EXP_REL .)
+    WHILE           reduce using rule 65 (EXP_LOGICA -> EXP_REL .)
+    IF              reduce using rule 65 (EXP_LOGICA -> EXP_REL .)
+    WRITE           reduce using rule 65 (EXP_LOGICA -> EXP_REL .)
+    READ            reduce using rule 65 (EXP_LOGICA -> EXP_REL .)
+    ID              reduce using rule 65 (EXP_LOGICA -> EXP_REL .)
+    THEN            reduce using rule 65 (EXP_LOGICA -> EXP_REL .)
+
+
+state 37
+
+    (66) EXP_REL -> EXP_MAT . OP_REL EXP_MAT
+    (67) EXP_REL -> EXP_MAT .
+    (68) OP_REL -> . EQUALS
+    (69) OP_REL -> . DIFF
+    (70) OP_REL -> . LT
+    (71) OP_REL -> . LE
+    (72) OP_REL -> . GT
+    (73) OP_REL -> . GE
+
+    BEGIN           reduce using rule 67 (EXP_REL -> EXP_MAT .)
+    WHILE           reduce using rule 67 (EXP_REL -> EXP_MAT .)
+    IF              reduce using rule 67 (EXP_REL -> EXP_MAT .)
+    WRITE           reduce using rule 67 (EXP_REL -> EXP_MAT .)
+    READ            reduce using rule 67 (EXP_REL -> EXP_MAT .)
+    ID              reduce using rule 67 (EXP_REL -> EXP_MAT .)
+    THEN            reduce using rule 67 (EXP_REL -> EXP_MAT .)
+    EQUALS          shift and go to state 70
+    DIFF            shift and go to state 71
+    LT              shift and go to state 72
+    LE              shift and go to state 73
+    GT              shift and go to state 74
+    GE              shift and go to state 75
+
+    OP_REL                         shift and go to state 69
+
+state 38
+
+    (74) EXP_MAT -> TERMO . PLUS EXP_MAT
+    (75) EXP_MAT -> TERMO . MINUS EXP_MAT
+    (76) EXP_MAT -> TERMO .
+
+    PLUS            shift and go to state 76
+    MINUS           shift and go to state 77
+    EQUALS          reduce using rule 76 (EXP_MAT -> TERMO .)
+    DIFF            reduce using rule 76 (EXP_MAT -> TERMO .)
+    LT              reduce using rule 76 (EXP_MAT -> TERMO .)
+    LE              reduce using rule 76 (EXP_MAT -> TERMO .)
+    GT              reduce using rule 76 (EXP_MAT -> TERMO .)
+    GE              reduce using rule 76 (EXP_MAT -> TERMO .)
+    BEGIN           reduce using rule 76 (EXP_MAT -> TERMO .)
+    WHILE           reduce using rule 76 (EXP_MAT -> TERMO .)
+    IF              reduce using rule 76 (EXP_MAT -> TERMO .)
+    WRITE           reduce using rule 76 (EXP_MAT -> TERMO .)
+    READ            reduce using rule 76 (EXP_MAT -> TERMO .)
+    ID              reduce using rule 76 (EXP_MAT -> TERMO .)
+    THEN            reduce using rule 76 (EXP_MAT -> TERMO .)
+    SEMICOLON       reduce using rule 76 (EXP_MAT -> TERMO .)
+    ELSE            reduce using rule 76 (EXP_MAT -> TERMO .)
+    FUNCTION        reduce using rule 76 (EXP_MAT -> TERMO .)
+    RPAREN          reduce using rule 76 (EXP_MAT -> TERMO .)
+    RBRACKET        reduce using rule 76 (EXP_MAT -> TERMO .)
+    COMMA           reduce using rule 76 (EXP_MAT -> TERMO .)
+
+
+state 39
+
+    (77) TERMO -> FATOR . TIMES TERMO
+    (78) TERMO -> FATOR . DIVIDE TERMO
+    (79) TERMO -> FATOR .
+
+    TIMES           shift and go to state 78
+    DIVIDE          shift and go to state 79
+    PLUS            reduce using rule 79 (TERMO -> FATOR .)
+    MINUS           reduce using rule 79 (TERMO -> FATOR .)
+    EQUALS          reduce using rule 79 (TERMO -> FATOR .)
+    DIFF            reduce using rule 79 (TERMO -> FATOR .)
+    LT              reduce using rule 79 (TERMO -> FATOR .)
+    LE              reduce using rule 79 (TERMO -> FATOR .)
+    GT              reduce using rule 79 (TERMO -> FATOR .)
+    GE              reduce using rule 79 (TERMO -> FATOR .)
+    BEGIN           reduce using rule 79 (TERMO -> FATOR .)
+    WHILE           reduce using rule 79 (TERMO -> FATOR .)
+    IF              reduce using rule 79 (TERMO -> FATOR .)
+    WRITE           reduce using rule 79 (TERMO -> FATOR .)
+    READ            reduce using rule 79 (TERMO -> FATOR .)
+    ID              reduce using rule 79 (TERMO -> FATOR .)
+    THEN            reduce using rule 79 (TERMO -> FATOR .)
+    SEMICOLON       reduce using rule 79 (TERMO -> FATOR .)
+    ELSE            reduce using rule 79 (TERMO -> FATOR .)
+    FUNCTION        reduce using rule 79 (TERMO -> FATOR .)
+    RPAREN          reduce using rule 79 (TERMO -> FATOR .)
+    RBRACKET        reduce using rule 79 (TERMO -> FATOR .)
+    COMMA           reduce using rule 79 (TERMO -> FATOR .)
+
+
+state 40
+
+    (80) FATOR -> PARAMETRO .
+
+    TIMES           reduce using rule 80 (FATOR -> PARAMETRO .)
+    DIVIDE          reduce using rule 80 (FATOR -> PARAMETRO .)
+    PLUS            reduce using rule 80 (FATOR -> PARAMETRO .)
+    MINUS           reduce using rule 80 (FATOR -> PARAMETRO .)
+    EQUALS          reduce using rule 80 (FATOR -> PARAMETRO .)
+    DIFF            reduce using rule 80 (FATOR -> PARAMETRO .)
+    LT              reduce using rule 80 (FATOR -> PARAMETRO .)
+    LE              reduce using rule 80 (FATOR -> PARAMETRO .)
+    GT              reduce using rule 80 (FATOR -> PARAMETRO .)
+    GE              reduce using rule 80 (FATOR -> PARAMETRO .)
+    BEGIN           reduce using rule 80 (FATOR -> PARAMETRO .)
+    WHILE           reduce using rule 80 (FATOR -> PARAMETRO .)
+    IF              reduce using rule 80 (FATOR -> PARAMETRO .)
+    WRITE           reduce using rule 80 (FATOR -> PARAMETRO .)
+    READ            reduce using rule 80 (FATOR -> PARAMETRO .)
+    ID              reduce using rule 80 (FATOR -> PARAMETRO .)
+    THEN            reduce using rule 80 (FATOR -> PARAMETRO .)
+    SEMICOLON       reduce using rule 80 (FATOR -> PARAMETRO .)
+    ELSE            reduce using rule 80 (FATOR -> PARAMETRO .)
+    FUNCTION        reduce using rule 80 (FATOR -> PARAMETRO .)
+    RPAREN          reduce using rule 80 (FATOR -> PARAMETRO .)
+    RBRACKET        reduce using rule 80 (FATOR -> PARAMETRO .)
+    COMMA           reduce using rule 80 (FATOR -> PARAMETRO .)
+
+
+state 41
+
+    (81) FATOR -> LPAREN . EXP_MAT RPAREN
+    (74) EXP_MAT -> . TERMO PLUS EXP_MAT
+    (75) EXP_MAT -> . TERMO MINUS EXP_MAT
+    (76) EXP_MAT -> . TERMO
+    (77) TERMO -> . FATOR TIMES TERMO
+    (78) TERMO -> . FATOR DIVIDE TERMO
+    (79) TERMO -> . FATOR
+    (80) FATOR -> . PARAMETRO
+    (81) FATOR -> . LPAREN EXP_MAT RPAREN
+    (82) PARAMETRO -> . NOME
+    (83) PARAMETRO -> . NUM_INT
+    (84) PARAMETRO -> . NUM_REAL
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    LPAREN          shift and go to state 41
+    NUM_INT         shift and go to state 43
+    NUM_REAL        shift and go to state 44
+    ID              shift and go to state 22
+
+    EXP_MAT                        shift and go to state 80
+    TERMO                          shift and go to state 38
+    FATOR                          shift and go to state 39
+    PARAMETRO                      shift and go to state 40
+    NOME                           shift and go to state 42
+
+state 42
+
+    (82) PARAMETRO -> NOME .
+
+    TIMES           reduce using rule 82 (PARAMETRO -> NOME .)
+    DIVIDE          reduce using rule 82 (PARAMETRO -> NOME .)
+    PLUS            reduce using rule 82 (PARAMETRO -> NOME .)
+    MINUS           reduce using rule 82 (PARAMETRO -> NOME .)
+    EQUALS          reduce using rule 82 (PARAMETRO -> NOME .)
+    DIFF            reduce using rule 82 (PARAMETRO -> NOME .)
+    LT              reduce using rule 82 (PARAMETRO -> NOME .)
+    LE              reduce using rule 82 (PARAMETRO -> NOME .)
+    GT              reduce using rule 82 (PARAMETRO -> NOME .)
+    GE              reduce using rule 82 (PARAMETRO -> NOME .)
+    BEGIN           reduce using rule 82 (PARAMETRO -> NOME .)
+    WHILE           reduce using rule 82 (PARAMETRO -> NOME .)
+    IF              reduce using rule 82 (PARAMETRO -> NOME .)
+    WRITE           reduce using rule 82 (PARAMETRO -> NOME .)
+    READ            reduce using rule 82 (PARAMETRO -> NOME .)
+    ID              reduce using rule 82 (PARAMETRO -> NOME .)
+    THEN            reduce using rule 82 (PARAMETRO -> NOME .)
+    SEMICOLON       reduce using rule 82 (PARAMETRO -> NOME .)
+    ELSE            reduce using rule 82 (PARAMETRO -> NOME .)
+    FUNCTION        reduce using rule 82 (PARAMETRO -> NOME .)
+    RPAREN          reduce using rule 82 (PARAMETRO -> NOME .)
+    RBRACKET        reduce using rule 82 (PARAMETRO -> NOME .)
+    COMMA           reduce using rule 82 (PARAMETRO -> NOME .)
+
+
+state 43
+
+    (83) PARAMETRO -> NUM_INT .
+
+    TIMES           reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    DIVIDE          reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    PLUS            reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    MINUS           reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    EQUALS          reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    DIFF            reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    LT              reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    LE              reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    GT              reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    GE              reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    BEGIN           reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    WHILE           reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    IF              reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    WRITE           reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    READ            reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    ID              reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    THEN            reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    SEMICOLON       reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    ELSE            reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    FUNCTION        reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    RPAREN          reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    RBRACKET        reduce using rule 83 (PARAMETRO -> NUM_INT .)
+    COMMA           reduce using rule 83 (PARAMETRO -> NUM_INT .)
+
+
+state 44
+
+    (84) PARAMETRO -> NUM_REAL .
+
+    TIMES           reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    DIVIDE          reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    PLUS            reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    MINUS           reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    EQUALS          reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    DIFF            reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    LT              reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    LE              reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    GT              reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    GE              reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    BEGIN           reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    WHILE           reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    IF              reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    WRITE           reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    READ            reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    ID              reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    THEN            reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    SEMICOLON       reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    ELSE            reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    FUNCTION        reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    RPAREN          reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    RBRACKET        reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+    COMMA           reduce using rule 84 (PARAMETRO -> NUM_REAL .)
+
+
+state 45
+
+    (51) COMANDO -> IF EXP_LOGICA . THEN BLOCO ELSE_OPT
+
+    THEN            shift and go to state 81
+
+
+state 46
+
+    (52) COMANDO -> WRITE LPAREN . EXP_MAT RPAREN
+    (53) COMANDO -> WRITE LPAREN . STRING RPAREN
+    (74) EXP_MAT -> . TERMO PLUS EXP_MAT
+    (75) EXP_MAT -> . TERMO MINUS EXP_MAT
+    (76) EXP_MAT -> . TERMO
+    (77) TERMO -> . FATOR TIMES TERMO
+    (78) TERMO -> . FATOR DIVIDE TERMO
+    (79) TERMO -> . FATOR
+    (80) FATOR -> . PARAMETRO
+    (81) FATOR -> . LPAREN EXP_MAT RPAREN
+    (82) PARAMETRO -> . NOME
+    (83) PARAMETRO -> . NUM_INT
+    (84) PARAMETRO -> . NUM_REAL
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    STRING          shift and go to state 83
+    LPAREN          shift and go to state 41
+    NUM_INT         shift and go to state 43
+    NUM_REAL        shift and go to state 44
+    ID              shift and go to state 22
+
+    EXP_MAT                        shift and go to state 82
+    TERMO                          shift and go to state 38
+    FATOR                          shift and go to state 39
+    PARAMETRO                      shift and go to state 40
+    NOME                           shift and go to state 42
+
+state 47
+
+    (54) COMANDO -> READ LPAREN . NOME RPAREN
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    ID              shift and go to state 22
+
+    NOME                           shift and go to state 84
+
+state 48
+
+    (85) NOME -> ID NOME_CONT .
+
+    ASSIGN          reduce using rule 85 (NOME -> ID NOME_CONT .)
+    TIMES           reduce using rule 85 (NOME -> ID NOME_CONT .)
+    DIVIDE          reduce using rule 85 (NOME -> ID NOME_CONT .)
+    PLUS            reduce using rule 85 (NOME -> ID NOME_CONT .)
+    MINUS           reduce using rule 85 (NOME -> ID NOME_CONT .)
+    EQUALS          reduce using rule 85 (NOME -> ID NOME_CONT .)
+    DIFF            reduce using rule 85 (NOME -> ID NOME_CONT .)
+    LT              reduce using rule 85 (NOME -> ID NOME_CONT .)
+    LE              reduce using rule 85 (NOME -> ID NOME_CONT .)
+    GT              reduce using rule 85 (NOME -> ID NOME_CONT .)
+    GE              reduce using rule 85 (NOME -> ID NOME_CONT .)
+    BEGIN           reduce using rule 85 (NOME -> ID NOME_CONT .)
+    WHILE           reduce using rule 85 (NOME -> ID NOME_CONT .)
+    IF              reduce using rule 85 (NOME -> ID NOME_CONT .)
+    WRITE           reduce using rule 85 (NOME -> ID NOME_CONT .)
+    READ            reduce using rule 85 (NOME -> ID NOME_CONT .)
+    ID              reduce using rule 85 (NOME -> ID NOME_CONT .)
+    THEN            reduce using rule 85 (NOME -> ID NOME_CONT .)
+    SEMICOLON       reduce using rule 85 (NOME -> ID NOME_CONT .)
+    ELSE            reduce using rule 85 (NOME -> ID NOME_CONT .)
+    FUNCTION        reduce using rule 85 (NOME -> ID NOME_CONT .)
+    RPAREN          reduce using rule 85 (NOME -> ID NOME_CONT .)
+    RBRACKET        reduce using rule 85 (NOME -> ID NOME_CONT .)
+    COMMA           reduce using rule 85 (NOME -> ID NOME_CONT .)
+
+
+state 49
+
+    (87) NOME_CONT -> DOT . ID NOME_CONT
+
+    ID              shift and go to state 85
+
+
+state 50
+
+    (88) NOME_CONT -> LBRACKET . EXP_MAT RBRACKET
+    (74) EXP_MAT -> . TERMO PLUS EXP_MAT
+    (75) EXP_MAT -> . TERMO MINUS EXP_MAT
+    (76) EXP_MAT -> . TERMO
+    (77) TERMO -> . FATOR TIMES TERMO
+    (78) TERMO -> . FATOR DIVIDE TERMO
+    (79) TERMO -> . FATOR
+    (80) FATOR -> . PARAMETRO
+    (81) FATOR -> . LPAREN EXP_MAT RPAREN
+    (82) PARAMETRO -> . NOME
+    (83) PARAMETRO -> . NUM_INT
+    (84) PARAMETRO -> . NUM_REAL
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    LPAREN          shift and go to state 41
+    NUM_INT         shift and go to state 43
+    NUM_REAL        shift and go to state 44
+    ID              shift and go to state 22
+
+    EXP_MAT                        shift and go to state 86
+    TERMO                          shift and go to state 38
+    FATOR                          shift and go to state 39
+    PARAMETRO                      shift and go to state 40
+    NOME                           shift and go to state 42
+
+state 51
+
+    (89) NOME_CONT -> empty .
+
+    ASSIGN          reduce using rule 89 (NOME_CONT -> empty .)
+    TIMES           reduce using rule 89 (NOME_CONT -> empty .)
+    DIVIDE          reduce using rule 89 (NOME_CONT -> empty .)
+    PLUS            reduce using rule 89 (NOME_CONT -> empty .)
+    MINUS           reduce using rule 89 (NOME_CONT -> empty .)
+    EQUALS          reduce using rule 89 (NOME_CONT -> empty .)
+    DIFF            reduce using rule 89 (NOME_CONT -> empty .)
+    LT              reduce using rule 89 (NOME_CONT -> empty .)
+    LE              reduce using rule 89 (NOME_CONT -> empty .)
+    GT              reduce using rule 89 (NOME_CONT -> empty .)
+    GE              reduce using rule 89 (NOME_CONT -> empty .)
+    BEGIN           reduce using rule 89 (NOME_CONT -> empty .)
+    WHILE           reduce using rule 89 (NOME_CONT -> empty .)
+    IF              reduce using rule 89 (NOME_CONT -> empty .)
+    WRITE           reduce using rule 89 (NOME_CONT -> empty .)
+    READ            reduce using rule 89 (NOME_CONT -> empty .)
+    ID              reduce using rule 89 (NOME_CONT -> empty .)
+    THEN            reduce using rule 89 (NOME_CONT -> empty .)
+    RPAREN          reduce using rule 89 (NOME_CONT -> empty .)
+    RBRACKET        reduce using rule 89 (NOME_CONT -> empty .)
+    SEMICOLON       reduce using rule 89 (NOME_CONT -> empty .)
+    ELSE            reduce using rule 89 (NOME_CONT -> empty .)
+    FUNCTION        reduce using rule 89 (NOME_CONT -> empty .)
+    COMMA           reduce using rule 89 (NOME_CONT -> empty .)
+
+
+state 52
+
+    (4) DECLARACOES -> DEF_CONST DEF_TIPOS DEF_VAR . LISTA_FUNC
+    (34) LISTA_FUNC -> . FUNCAO LISTA_FUNC
+    (35) LISTA_FUNC -> . empty
+    (36) FUNCAO -> . FUNCTION ID LPAREN PARAM_FORM RPAREN COLON TIPO_DADO BLOCO_FUNCAO
+    (37) FUNCAO -> . FUNCTION ID LPAREN RPAREN COLON TIPO_DADO BLOCO_FUNCAO
+    (90) empty -> .
+
+    FUNCTION        shift and go to state 90
+    BEGIN           reduce using rule 90 (empty -> .)
+
+    LISTA_FUNC                     shift and go to state 87
+    FUNCAO                         shift and go to state 88
+    empty                          shift and go to state 89
+
+state 53
+
+    (25) DEF_VAR -> VAR . LISTA_VAR
+    (27) LISTA_VAR -> . VARIAVEL SEMICOLON LISTA_VAR
+    (28) LISTA_VAR -> . VARIAVEL SEMICOLON
+    (29) LISTA_VAR -> . empty
+    (30) VARIAVEL -> . LISTA_ID COLON TIPO_DADO
+    (90) empty -> .
+    (31) LISTA_ID -> . ID COMMA LISTA_ID
+    (32) LISTA_ID -> . ID
+    (33) LISTA_ID -> . empty
+
+  ! shift/reduce conflict for ID resolved as shift
+    FUNCTION        reduce using rule 90 (empty -> .)
+    BEGIN           reduce using rule 90 (empty -> .)
+    WHILE           reduce using rule 90 (empty -> .)
+    IF              reduce using rule 90 (empty -> .)
+    WRITE           reduce using rule 90 (empty -> .)
+    READ            reduce using rule 90 (empty -> .)
+    COLON           reduce using rule 90 (empty -> .)
+    ID              shift and go to state 95
+
+  ! ID              [ reduce using rule 90 (empty -> .) ]
+
+    LISTA_VAR                      shift and go to state 91
+    VARIAVEL                       shift and go to state 92
+    empty                          shift and go to state 93
+    LISTA_ID                       shift and go to state 94
+
+state 54
+
+    (26) DEF_VAR -> empty .
+
+    FUNCTION        reduce using rule 26 (DEF_VAR -> empty .)
+    BEGIN           reduce using rule 26 (DEF_VAR -> empty .)
+    WHILE           reduce using rule 26 (DEF_VAR -> empty .)
+    IF              reduce using rule 26 (DEF_VAR -> empty .)
+    WRITE           reduce using rule 26 (DEF_VAR -> empty .)
+    READ            reduce using rule 26 (DEF_VAR -> empty .)
+    ID              reduce using rule 26 (DEF_VAR -> empty .)
+
+
+state 55
+
+    (14) DEF_TIPOS -> TYPE LISTA_TIPOS .
+
+    VAR             reduce using rule 14 (DEF_TIPOS -> TYPE LISTA_TIPOS .)
+    FUNCTION        reduce using rule 14 (DEF_TIPOS -> TYPE LISTA_TIPOS .)
+    BEGIN           reduce using rule 14 (DEF_TIPOS -> TYPE LISTA_TIPOS .)
+
+
+state 56
+
+    (16) LISTA_TIPOS -> TIPO . SEMICOLON LISTA_TIPOS
+    (17) LISTA_TIPOS -> TIPO . SEMICOLON
+
+    SEMICOLON       shift and go to state 96
+
+
+state 57
+
+    (18) LISTA_TIPOS -> empty .
+
+    VAR             reduce using rule 18 (LISTA_TIPOS -> empty .)
+    FUNCTION        reduce using rule 18 (LISTA_TIPOS -> empty .)
+    BEGIN           reduce using rule 18 (LISTA_TIPOS -> empty .)
+
+
+state 58
+
+    (19) TIPO -> ID . ASSIGN TIPO_DADO
+
+    ASSIGN          shift and go to state 97
+
+
+state 59
+
+    (8) LISTA_CONST -> CONSTANTE SEMICOLON . LISTA_CONST
+    (9) LISTA_CONST -> CONSTANTE SEMICOLON .
+    (8) LISTA_CONST -> . CONSTANTE SEMICOLON LISTA_CONST
+    (9) LISTA_CONST -> . CONSTANTE SEMICOLON
+    (10) LISTA_CONST -> . empty
+    (11) CONSTANTE -> . ID ASSIGN CONST_VALOR SEMICOLON
+    (90) empty -> .
+
+  ! reduce/reduce conflict for TYPE resolved using rule 9 (LISTA_CONST -> CONSTANTE SEMICOLON .)
+  ! reduce/reduce conflict for VAR resolved using rule 9 (LISTA_CONST -> CONSTANTE SEMICOLON .)
+  ! reduce/reduce conflict for FUNCTION resolved using rule 9 (LISTA_CONST -> CONSTANTE SEMICOLON .)
+  ! reduce/reduce conflict for BEGIN resolved using rule 9 (LISTA_CONST -> CONSTANTE SEMICOLON .)
+    TYPE            reduce using rule 9 (LISTA_CONST -> CONSTANTE SEMICOLON .)
+    VAR             reduce using rule 9 (LISTA_CONST -> CONSTANTE SEMICOLON .)
+    FUNCTION        reduce using rule 9 (LISTA_CONST -> CONSTANTE SEMICOLON .)
+    BEGIN           reduce using rule 9 (LISTA_CONST -> CONSTANTE SEMICOLON .)
+    ID              shift and go to state 29
+
+  ! TYPE            [ reduce using rule 90 (empty -> .) ]
+  ! VAR             [ reduce using rule 90 (empty -> .) ]
+  ! FUNCTION        [ reduce using rule 90 (empty -> .) ]
+  ! BEGIN           [ reduce using rule 90 (empty -> .) ]
+
+    CONSTANTE                      shift and go to state 27
+    LISTA_CONST                    shift and go to state 98
+    empty                          shift and go to state 28
+
+state 60
+
+    (11) CONSTANTE -> ID ASSIGN . CONST_VALOR SEMICOLON
+    (12) CONST_VALOR -> . STRING
+    (13) CONST_VALOR -> . EXP_MAT
+    (74) EXP_MAT -> . TERMO PLUS EXP_MAT
+    (75) EXP_MAT -> . TERMO MINUS EXP_MAT
+    (76) EXP_MAT -> . TERMO
+    (77) TERMO -> . FATOR TIMES TERMO
+    (78) TERMO -> . FATOR DIVIDE TERMO
+    (79) TERMO -> . FATOR
+    (80) FATOR -> . PARAMETRO
+    (81) FATOR -> . LPAREN EXP_MAT RPAREN
+    (82) PARAMETRO -> . NOME
+    (83) PARAMETRO -> . NUM_INT
+    (84) PARAMETRO -> . NUM_REAL
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    STRING          shift and go to state 100
+    LPAREN          shift and go to state 41
+    NUM_INT         shift and go to state 43
+    NUM_REAL        shift and go to state 44
+    ID              shift and go to state 22
+
+    CONST_VALOR                    shift and go to state 99
+    EXP_MAT                        shift and go to state 101
+    TERMO                          shift and go to state 38
+    FATOR                          shift and go to state 39
+    PARAMETRO                      shift and go to state 40
+    NOME                           shift and go to state 42
+
+state 61
+
+    (2) CORPO -> DECLARACOES BEGIN LISTA_COM END .
+
+    $end            reduce using rule 2 (CORPO -> DECLARACOES BEGIN LISTA_COM END .)
+
+
+state 62
+
+    (44) BLOCO -> BEGIN LISTA_COM END .
+
+    SEMICOLON       reduce using rule 44 (BLOCO -> BEGIN LISTA_COM END .)
+    ELSE            reduce using rule 44 (BLOCO -> BEGIN LISTA_COM END .)
+    FUNCTION        reduce using rule 44 (BLOCO -> BEGIN LISTA_COM END .)
+    BEGIN           reduce using rule 44 (BLOCO -> BEGIN LISTA_COM END .)
+
+
+state 63
+
+    (46) LISTA_COM -> COMANDO SEMICOLON LISTA_COM .
+
+    END             reduce using rule 46 (LISTA_COM -> COMANDO SEMICOLON LISTA_COM .)
+
+
+state 64
+
+    (49) COMANDO -> NOME ASSIGN VALOR .
+
+    SEMICOLON       reduce using rule 49 (COMANDO -> NOME ASSIGN VALOR .)
+    ELSE            reduce using rule 49 (COMANDO -> NOME ASSIGN VALOR .)
+    FUNCTION        reduce using rule 49 (COMANDO -> NOME ASSIGN VALOR .)
+    BEGIN           reduce using rule 49 (COMANDO -> NOME ASSIGN VALOR .)
+
+
+state 65
+
+    (58) VALOR -> EXP_MAT .
+
+    SEMICOLON       reduce using rule 58 (VALOR -> EXP_MAT .)
+    ELSE            reduce using rule 58 (VALOR -> EXP_MAT .)
+    FUNCTION        reduce using rule 58 (VALOR -> EXP_MAT .)
+    BEGIN           reduce using rule 58 (VALOR -> EXP_MAT .)
+
+
+state 66
+
+    (59) VALOR -> ID . LISTA_ARG
+    (85) NOME -> ID . NOME_CONT
+    (86) NOME -> ID .
+    (60) LISTA_ARG -> . LPAREN LISTA_EXP RPAREN
+    (61) LISTA_ARG -> . LPAREN RPAREN
+    (87) NOME_CONT -> . DOT ID NOME_CONT
+    (88) NOME_CONT -> . LBRACKET EXP_MAT RBRACKET
+    (89) NOME_CONT -> . empty
+    (90) empty -> .
+
+  ! reduce/reduce conflict for TIMES resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for DIVIDE resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for PLUS resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for MINUS resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for ELSE resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for FUNCTION resolved using rule 86 (NOME -> ID .)
+  ! reduce/reduce conflict for BEGIN resolved using rule 86 (NOME -> ID .)
+    TIMES           reduce using rule 86 (NOME -> ID .)
+    DIVIDE          reduce using rule 86 (NOME -> ID .)
+    PLUS            reduce using rule 86 (NOME -> ID .)
+    MINUS           reduce using rule 86 (NOME -> ID .)
+    SEMICOLON       reduce using rule 86 (NOME -> ID .)
+    ELSE            reduce using rule 86 (NOME -> ID .)
+    FUNCTION        reduce using rule 86 (NOME -> ID .)
+    BEGIN           reduce using rule 86 (NOME -> ID .)
+    LPAREN          shift and go to state 103
+    DOT             shift and go to state 49
+    LBRACKET        shift and go to state 50
+
+  ! TIMES           [ reduce using rule 90 (empty -> .) ]
+  ! DIVIDE          [ reduce using rule 90 (empty -> .) ]
+  ! PLUS            [ reduce using rule 90 (empty -> .) ]
+  ! MINUS           [ reduce using rule 90 (empty -> .) ]
+  ! SEMICOLON       [ reduce using rule 90 (empty -> .) ]
+  ! ELSE            [ reduce using rule 90 (empty -> .) ]
+  ! FUNCTION        [ reduce using rule 90 (empty -> .) ]
+  ! BEGIN           [ reduce using rule 90 (empty -> .) ]
+
+    LISTA_ARG                      shift and go to state 102
+    NOME_CONT                      shift and go to state 48
+    empty                          shift and go to state 51
+
+state 67
+
+    (50) COMANDO -> WHILE EXP_LOGICA BLOCO .
+    (55) COMANDO -> BLOCO .
+
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 50 (COMANDO -> WHILE EXP_LOGICA BLOCO .)
+  ! reduce/reduce conflict for ELSE resolved using rule 50 (COMANDO -> WHILE EXP_LOGICA BLOCO .)
+  ! reduce/reduce conflict for FUNCTION resolved using rule 50 (COMANDO -> WHILE EXP_LOGICA BLOCO .)
+  ! reduce/reduce conflict for BEGIN resolved using rule 50 (COMANDO -> WHILE EXP_LOGICA BLOCO .)
+    SEMICOLON       reduce using rule 50 (COMANDO -> WHILE EXP_LOGICA BLOCO .)
+    ELSE            reduce using rule 50 (COMANDO -> WHILE EXP_LOGICA BLOCO .)
+    FUNCTION        reduce using rule 50 (COMANDO -> WHILE EXP_LOGICA BLOCO .)
+    BEGIN           reduce using rule 50 (COMANDO -> WHILE EXP_LOGICA BLOCO .)
+
+  ! SEMICOLON       [ reduce using rule 55 (COMANDO -> BLOCO .) ]
+  ! ELSE            [ reduce using rule 55 (COMANDO -> BLOCO .) ]
+  ! FUNCTION        [ reduce using rule 55 (COMANDO -> BLOCO .) ]
+  ! BEGIN           [ reduce using rule 55 (COMANDO -> BLOCO .) ]
+
+
+state 68
+
+    (45) BLOCO -> COMANDO .
+
+    SEMICOLON       reduce using rule 45 (BLOCO -> COMANDO .)
+    ELSE            reduce using rule 45 (BLOCO -> COMANDO .)
+    FUNCTION        reduce using rule 45 (BLOCO -> COMANDO .)
+    BEGIN           reduce using rule 45 (BLOCO -> COMANDO .)
+
+
+state 69
+
+    (66) EXP_REL -> EXP_MAT OP_REL . EXP_MAT
+    (74) EXP_MAT -> . TERMO PLUS EXP_MAT
+    (75) EXP_MAT -> . TERMO MINUS EXP_MAT
+    (76) EXP_MAT -> . TERMO
+    (77) TERMO -> . FATOR TIMES TERMO
+    (78) TERMO -> . FATOR DIVIDE TERMO
+    (79) TERMO -> . FATOR
+    (80) FATOR -> . PARAMETRO
+    (81) FATOR -> . LPAREN EXP_MAT RPAREN
+    (82) PARAMETRO -> . NOME
+    (83) PARAMETRO -> . NUM_INT
+    (84) PARAMETRO -> . NUM_REAL
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    LPAREN          shift and go to state 41
+    NUM_INT         shift and go to state 43
+    NUM_REAL        shift and go to state 44
+    ID              shift and go to state 22
+
+    EXP_MAT                        shift and go to state 104
+    TERMO                          shift and go to state 38
+    FATOR                          shift and go to state 39
+    PARAMETRO                      shift and go to state 40
+    NOME                           shift and go to state 42
+
+state 70
+
+    (68) OP_REL -> EQUALS .
+
+    LPAREN          reduce using rule 68 (OP_REL -> EQUALS .)
+    NUM_INT         reduce using rule 68 (OP_REL -> EQUALS .)
+    NUM_REAL        reduce using rule 68 (OP_REL -> EQUALS .)
+    ID              reduce using rule 68 (OP_REL -> EQUALS .)
+
+
+state 71
+
+    (69) OP_REL -> DIFF .
+
+    LPAREN          reduce using rule 69 (OP_REL -> DIFF .)
+    NUM_INT         reduce using rule 69 (OP_REL -> DIFF .)
+    NUM_REAL        reduce using rule 69 (OP_REL -> DIFF .)
+    ID              reduce using rule 69 (OP_REL -> DIFF .)
+
+
+state 72
+
+    (70) OP_REL -> LT .
+
+    LPAREN          reduce using rule 70 (OP_REL -> LT .)
+    NUM_INT         reduce using rule 70 (OP_REL -> LT .)
+    NUM_REAL        reduce using rule 70 (OP_REL -> LT .)
+    ID              reduce using rule 70 (OP_REL -> LT .)
+
+
+state 73
+
+    (71) OP_REL -> LE .
+
+    LPAREN          reduce using rule 71 (OP_REL -> LE .)
+    NUM_INT         reduce using rule 71 (OP_REL -> LE .)
+    NUM_REAL        reduce using rule 71 (OP_REL -> LE .)
+    ID              reduce using rule 71 (OP_REL -> LE .)
+
+
+state 74
+
+    (72) OP_REL -> GT .
+
+    LPAREN          reduce using rule 72 (OP_REL -> GT .)
+    NUM_INT         reduce using rule 72 (OP_REL -> GT .)
+    NUM_REAL        reduce using rule 72 (OP_REL -> GT .)
+    ID              reduce using rule 72 (OP_REL -> GT .)
+
+
+state 75
+
+    (73) OP_REL -> GE .
+
+    LPAREN          reduce using rule 73 (OP_REL -> GE .)
+    NUM_INT         reduce using rule 73 (OP_REL -> GE .)
+    NUM_REAL        reduce using rule 73 (OP_REL -> GE .)
+    ID              reduce using rule 73 (OP_REL -> GE .)
+
+
+state 76
+
+    (74) EXP_MAT -> TERMO PLUS . EXP_MAT
+    (74) EXP_MAT -> . TERMO PLUS EXP_MAT
+    (75) EXP_MAT -> . TERMO MINUS EXP_MAT
+    (76) EXP_MAT -> . TERMO
+    (77) TERMO -> . FATOR TIMES TERMO
+    (78) TERMO -> . FATOR DIVIDE TERMO
+    (79) TERMO -> . FATOR
+    (80) FATOR -> . PARAMETRO
+    (81) FATOR -> . LPAREN EXP_MAT RPAREN
+    (82) PARAMETRO -> . NOME
+    (83) PARAMETRO -> . NUM_INT
+    (84) PARAMETRO -> . NUM_REAL
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    LPAREN          shift and go to state 41
+    NUM_INT         shift and go to state 43
+    NUM_REAL        shift and go to state 44
+    ID              shift and go to state 22
+
+    TERMO                          shift and go to state 38
+    EXP_MAT                        shift and go to state 105
+    FATOR                          shift and go to state 39
+    PARAMETRO                      shift and go to state 40
+    NOME                           shift and go to state 42
+
+state 77
+
+    (75) EXP_MAT -> TERMO MINUS . EXP_MAT
+    (74) EXP_MAT -> . TERMO PLUS EXP_MAT
+    (75) EXP_MAT -> . TERMO MINUS EXP_MAT
+    (76) EXP_MAT -> . TERMO
+    (77) TERMO -> . FATOR TIMES TERMO
+    (78) TERMO -> . FATOR DIVIDE TERMO
+    (79) TERMO -> . FATOR
+    (80) FATOR -> . PARAMETRO
+    (81) FATOR -> . LPAREN EXP_MAT RPAREN
+    (82) PARAMETRO -> . NOME
+    (83) PARAMETRO -> . NUM_INT
+    (84) PARAMETRO -> . NUM_REAL
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    LPAREN          shift and go to state 41
+    NUM_INT         shift and go to state 43
+    NUM_REAL        shift and go to state 44
+    ID              shift and go to state 22
+
+    TERMO                          shift and go to state 38
+    EXP_MAT                        shift and go to state 106
+    FATOR                          shift and go to state 39
+    PARAMETRO                      shift and go to state 40
+    NOME                           shift and go to state 42
+
+state 78
+
+    (77) TERMO -> FATOR TIMES . TERMO
+    (77) TERMO -> . FATOR TIMES TERMO
+    (78) TERMO -> . FATOR DIVIDE TERMO
+    (79) TERMO -> . FATOR
+    (80) FATOR -> . PARAMETRO
+    (81) FATOR -> . LPAREN EXP_MAT RPAREN
+    (82) PARAMETRO -> . NOME
+    (83) PARAMETRO -> . NUM_INT
+    (84) PARAMETRO -> . NUM_REAL
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    LPAREN          shift and go to state 41
+    NUM_INT         shift and go to state 43
+    NUM_REAL        shift and go to state 44
+    ID              shift and go to state 22
+
+    FATOR                          shift and go to state 39
+    TERMO                          shift and go to state 107
+    PARAMETRO                      shift and go to state 40
+    NOME                           shift and go to state 42
+
+state 79
+
+    (78) TERMO -> FATOR DIVIDE . TERMO
+    (77) TERMO -> . FATOR TIMES TERMO
+    (78) TERMO -> . FATOR DIVIDE TERMO
+    (79) TERMO -> . FATOR
+    (80) FATOR -> . PARAMETRO
+    (81) FATOR -> . LPAREN EXP_MAT RPAREN
+    (82) PARAMETRO -> . NOME
+    (83) PARAMETRO -> . NUM_INT
+    (84) PARAMETRO -> . NUM_REAL
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    LPAREN          shift and go to state 41
+    NUM_INT         shift and go to state 43
+    NUM_REAL        shift and go to state 44
+    ID              shift and go to state 22
+
+    FATOR                          shift and go to state 39
+    TERMO                          shift and go to state 108
+    PARAMETRO                      shift and go to state 40
+    NOME                           shift and go to state 42
+
+state 80
+
+    (81) FATOR -> LPAREN EXP_MAT . RPAREN
+
+    RPAREN          shift and go to state 109
+
+
+state 81
+
+    (51) COMANDO -> IF EXP_LOGICA THEN . BLOCO ELSE_OPT
+    (44) BLOCO -> . BEGIN LISTA_COM END
+    (45) BLOCO -> . COMANDO
+    (49) COMANDO -> . NOME ASSIGN VALOR
+    (50) COMANDO -> . WHILE EXP_LOGICA BLOCO
+    (51) COMANDO -> . IF EXP_LOGICA THEN BLOCO ELSE_OPT
+    (52) COMANDO -> . WRITE LPAREN EXP_MAT RPAREN
+    (53) COMANDO -> . WRITE LPAREN STRING RPAREN
+    (54) COMANDO -> . READ LPAREN NOME RPAREN
+    (55) COMANDO -> . BLOCO
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    BEGIN           shift and go to state 12
+    WHILE           shift and go to state 17
+    IF              shift and go to state 19
+    WRITE           shift and go to state 20
+    READ            shift and go to state 21
+    ID              shift and go to state 22
+
+    BLOCO                          shift and go to state 110
+    COMANDO                        shift and go to state 68
+    NOME                           shift and go to state 16
+
+state 82
+
+    (52) COMANDO -> WRITE LPAREN EXP_MAT . RPAREN
+
+    RPAREN          shift and go to state 111
+
+
+state 83
+
+    (53) COMANDO -> WRITE LPAREN STRING . RPAREN
+
+    RPAREN          shift and go to state 112
+
+
+state 84
+
+    (54) COMANDO -> READ LPAREN NOME . RPAREN
+
+    RPAREN          shift and go to state 113
+
+
+state 85
+
+    (87) NOME_CONT -> DOT ID . NOME_CONT
+    (87) NOME_CONT -> . DOT ID NOME_CONT
+    (88) NOME_CONT -> . LBRACKET EXP_MAT RBRACKET
+    (89) NOME_CONT -> . empty
+    (90) empty -> .
+
+    DOT             shift and go to state 49
+    LBRACKET        shift and go to state 50
+    ASSIGN          reduce using rule 90 (empty -> .)
+    TIMES           reduce using rule 90 (empty -> .)
+    DIVIDE          reduce using rule 90 (empty -> .)
+    PLUS            reduce using rule 90 (empty -> .)
+    MINUS           reduce using rule 90 (empty -> .)
+    EQUALS          reduce using rule 90 (empty -> .)
+    DIFF            reduce using rule 90 (empty -> .)
+    LT              reduce using rule 90 (empty -> .)
+    LE              reduce using rule 90 (empty -> .)
+    GT              reduce using rule 90 (empty -> .)
+    GE              reduce using rule 90 (empty -> .)
+    BEGIN           reduce using rule 90 (empty -> .)
+    WHILE           reduce using rule 90 (empty -> .)
+    IF              reduce using rule 90 (empty -> .)
+    WRITE           reduce using rule 90 (empty -> .)
+    READ            reduce using rule 90 (empty -> .)
+    ID              reduce using rule 90 (empty -> .)
+    THEN            reduce using rule 90 (empty -> .)
+    RPAREN          reduce using rule 90 (empty -> .)
+    RBRACKET        reduce using rule 90 (empty -> .)
+    SEMICOLON       reduce using rule 90 (empty -> .)
+    ELSE            reduce using rule 90 (empty -> .)
+    FUNCTION        reduce using rule 90 (empty -> .)
+    COMMA           reduce using rule 90 (empty -> .)
+
+    NOME_CONT                      shift and go to state 114
+    empty                          shift and go to state 51
+
+state 86
+
+    (88) NOME_CONT -> LBRACKET EXP_MAT . RBRACKET
+
+    RBRACKET        shift and go to state 115
+
+
+state 87
+
+    (4) DECLARACOES -> DEF_CONST DEF_TIPOS DEF_VAR LISTA_FUNC .
+
+    BEGIN           reduce using rule 4 (DECLARACOES -> DEF_CONST DEF_TIPOS DEF_VAR LISTA_FUNC .)
+
+
+state 88
+
+    (34) LISTA_FUNC -> FUNCAO . LISTA_FUNC
+    (34) LISTA_FUNC -> . FUNCAO LISTA_FUNC
+    (35) LISTA_FUNC -> . empty
+    (36) FUNCAO -> . FUNCTION ID LPAREN PARAM_FORM RPAREN COLON TIPO_DADO BLOCO_FUNCAO
+    (37) FUNCAO -> . FUNCTION ID LPAREN RPAREN COLON TIPO_DADO BLOCO_FUNCAO
+    (90) empty -> .
+
+    FUNCTION        shift and go to state 90
+    BEGIN           reduce using rule 90 (empty -> .)
+
+    FUNCAO                         shift and go to state 88
+    LISTA_FUNC                     shift and go to state 116
+    empty                          shift and go to state 89
+
+state 89
+
+    (35) LISTA_FUNC -> empty .
+
+    BEGIN           reduce using rule 35 (LISTA_FUNC -> empty .)
+
+
+state 90
+
+    (36) FUNCAO -> FUNCTION . ID LPAREN PARAM_FORM RPAREN COLON TIPO_DADO BLOCO_FUNCAO
+    (37) FUNCAO -> FUNCTION . ID LPAREN RPAREN COLON TIPO_DADO BLOCO_FUNCAO
+
+    ID              shift and go to state 117
+
+
+state 91
+
+    (25) DEF_VAR -> VAR LISTA_VAR .
+
+    FUNCTION        reduce using rule 25 (DEF_VAR -> VAR LISTA_VAR .)
+    BEGIN           reduce using rule 25 (DEF_VAR -> VAR LISTA_VAR .)
+    WHILE           reduce using rule 25 (DEF_VAR -> VAR LISTA_VAR .)
+    IF              reduce using rule 25 (DEF_VAR -> VAR LISTA_VAR .)
+    WRITE           reduce using rule 25 (DEF_VAR -> VAR LISTA_VAR .)
+    READ            reduce using rule 25 (DEF_VAR -> VAR LISTA_VAR .)
+    ID              reduce using rule 25 (DEF_VAR -> VAR LISTA_VAR .)
+
+
+state 92
+
+    (27) LISTA_VAR -> VARIAVEL . SEMICOLON LISTA_VAR
+    (28) LISTA_VAR -> VARIAVEL . SEMICOLON
+
+    SEMICOLON       shift and go to state 118
+
+
+state 93
+
+    (29) LISTA_VAR -> empty .
+    (33) LISTA_ID -> empty .
+
+    FUNCTION        reduce using rule 29 (LISTA_VAR -> empty .)
+    BEGIN           reduce using rule 29 (LISTA_VAR -> empty .)
+    WHILE           reduce using rule 29 (LISTA_VAR -> empty .)
+    IF              reduce using rule 29 (LISTA_VAR -> empty .)
+    WRITE           reduce using rule 29 (LISTA_VAR -> empty .)
+    READ            reduce using rule 29 (LISTA_VAR -> empty .)
+    ID              reduce using rule 29 (LISTA_VAR -> empty .)
+    END             reduce using rule 29 (LISTA_VAR -> empty .)
+    COLON           reduce using rule 33 (LISTA_ID -> empty .)
+
+
+state 94
+
+    (30) VARIAVEL -> LISTA_ID . COLON TIPO_DADO
+
+    COLON           shift and go to state 119
+
+
+state 95
+
+    (31) LISTA_ID -> ID . COMMA LISTA_ID
+    (32) LISTA_ID -> ID .
+
+    COMMA           shift and go to state 120
+    COLON           reduce using rule 32 (LISTA_ID -> ID .)
+
+
+state 96
+
+    (16) LISTA_TIPOS -> TIPO SEMICOLON . LISTA_TIPOS
+    (17) LISTA_TIPOS -> TIPO SEMICOLON .
+    (16) LISTA_TIPOS -> . TIPO SEMICOLON LISTA_TIPOS
+    (17) LISTA_TIPOS -> . TIPO SEMICOLON
+    (18) LISTA_TIPOS -> . empty
+    (19) TIPO -> . ID ASSIGN TIPO_DADO
+    (90) empty -> .
+
+  ! reduce/reduce conflict for VAR resolved using rule 17 (LISTA_TIPOS -> TIPO SEMICOLON .)
+  ! reduce/reduce conflict for FUNCTION resolved using rule 17 (LISTA_TIPOS -> TIPO SEMICOLON .)
+  ! reduce/reduce conflict for BEGIN resolved using rule 17 (LISTA_TIPOS -> TIPO SEMICOLON .)
+    VAR             reduce using rule 17 (LISTA_TIPOS -> TIPO SEMICOLON .)
+    FUNCTION        reduce using rule 17 (LISTA_TIPOS -> TIPO SEMICOLON .)
+    BEGIN           reduce using rule 17 (LISTA_TIPOS -> TIPO SEMICOLON .)
+    ID              shift and go to state 58
+
+  ! VAR             [ reduce using rule 90 (empty -> .) ]
+  ! FUNCTION        [ reduce using rule 90 (empty -> .) ]
+  ! BEGIN           [ reduce using rule 90 (empty -> .) ]
+
+    TIPO                           shift and go to state 56
+    LISTA_TIPOS                    shift and go to state 121
+    empty                          shift and go to state 57
+
+state 97
+
+    (19) TIPO -> ID ASSIGN . TIPO_DADO
+    (20) TIPO_DADO -> . INTEGER
+    (21) TIPO_DADO -> . REAL
+    (22) TIPO_DADO -> . ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO
+    (23) TIPO_DADO -> . RECORD LISTA_VAR END
+    (24) TIPO_DADO -> . ID
+
+    INTEGER         shift and go to state 124
+    REAL            shift and go to state 125
+    ARRAY           shift and go to state 126
+    RECORD          shift and go to state 127
+    ID              shift and go to state 122
+
+    TIPO_DADO                      shift and go to state 123
+
+state 98
+
+    (8) LISTA_CONST -> CONSTANTE SEMICOLON LISTA_CONST .
+
+    TYPE            reduce using rule 8 (LISTA_CONST -> CONSTANTE SEMICOLON LISTA_CONST .)
+    VAR             reduce using rule 8 (LISTA_CONST -> CONSTANTE SEMICOLON LISTA_CONST .)
+    FUNCTION        reduce using rule 8 (LISTA_CONST -> CONSTANTE SEMICOLON LISTA_CONST .)
+    BEGIN           reduce using rule 8 (LISTA_CONST -> CONSTANTE SEMICOLON LISTA_CONST .)
+
+
+state 99
+
+    (11) CONSTANTE -> ID ASSIGN CONST_VALOR . SEMICOLON
+
+    SEMICOLON       shift and go to state 128
+
+
+state 100
+
+    (12) CONST_VALOR -> STRING .
+
+    SEMICOLON       reduce using rule 12 (CONST_VALOR -> STRING .)
+
+
+state 101
+
+    (13) CONST_VALOR -> EXP_MAT .
+
+    SEMICOLON       reduce using rule 13 (CONST_VALOR -> EXP_MAT .)
+
+
+state 102
+
+    (59) VALOR -> ID LISTA_ARG .
+
+    SEMICOLON       reduce using rule 59 (VALOR -> ID LISTA_ARG .)
+    ELSE            reduce using rule 59 (VALOR -> ID LISTA_ARG .)
+    FUNCTION        reduce using rule 59 (VALOR -> ID LISTA_ARG .)
+    BEGIN           reduce using rule 59 (VALOR -> ID LISTA_ARG .)
+
+
+state 103
+
+    (60) LISTA_ARG -> LPAREN . LISTA_EXP RPAREN
+    (61) LISTA_ARG -> LPAREN . RPAREN
+    (62) LISTA_EXP -> . EXP_MAT COMMA LISTA_EXP
+    (63) LISTA_EXP -> . EXP_MAT
+    (64) LISTA_EXP -> . empty
+    (74) EXP_MAT -> . TERMO PLUS EXP_MAT
+    (75) EXP_MAT -> . TERMO MINUS EXP_MAT
+    (76) EXP_MAT -> . TERMO
+    (90) empty -> .
+    (77) TERMO -> . FATOR TIMES TERMO
+    (78) TERMO -> . FATOR DIVIDE TERMO
+    (79) TERMO -> . FATOR
+    (80) FATOR -> . PARAMETRO
+    (81) FATOR -> . LPAREN EXP_MAT RPAREN
+    (82) PARAMETRO -> . NOME
+    (83) PARAMETRO -> . NUM_INT
+    (84) PARAMETRO -> . NUM_REAL
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+  ! shift/reduce conflict for RPAREN resolved as shift
+    RPAREN          shift and go to state 130
+    LPAREN          shift and go to state 41
+    NUM_INT         shift and go to state 43
+    NUM_REAL        shift and go to state 44
+    ID              shift and go to state 22
+
+  ! RPAREN          [ reduce using rule 90 (empty -> .) ]
+
+    LISTA_EXP                      shift and go to state 129
+    EXP_MAT                        shift and go to state 131
+    empty                          shift and go to state 132
+    TERMO                          shift and go to state 38
+    FATOR                          shift and go to state 39
+    PARAMETRO                      shift and go to state 40
+    NOME                           shift and go to state 42
+
+state 104
+
+    (66) EXP_REL -> EXP_MAT OP_REL EXP_MAT .
+
+    BEGIN           reduce using rule 66 (EXP_REL -> EXP_MAT OP_REL EXP_MAT .)
+    WHILE           reduce using rule 66 (EXP_REL -> EXP_MAT OP_REL EXP_MAT .)
+    IF              reduce using rule 66 (EXP_REL -> EXP_MAT OP_REL EXP_MAT .)
+    WRITE           reduce using rule 66 (EXP_REL -> EXP_MAT OP_REL EXP_MAT .)
+    READ            reduce using rule 66 (EXP_REL -> EXP_MAT OP_REL EXP_MAT .)
+    ID              reduce using rule 66 (EXP_REL -> EXP_MAT OP_REL EXP_MAT .)
+    THEN            reduce using rule 66 (EXP_REL -> EXP_MAT OP_REL EXP_MAT .)
+
+
+state 105
+
+    (74) EXP_MAT -> TERMO PLUS EXP_MAT .
+
+    EQUALS          reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    DIFF            reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    LT              reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    LE              reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    GT              reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    GE              reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    BEGIN           reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    WHILE           reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    IF              reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    WRITE           reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    READ            reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    ID              reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    THEN            reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    SEMICOLON       reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    ELSE            reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    FUNCTION        reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    RPAREN          reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    RBRACKET        reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+    COMMA           reduce using rule 74 (EXP_MAT -> TERMO PLUS EXP_MAT .)
+
+
+state 106
+
+    (75) EXP_MAT -> TERMO MINUS EXP_MAT .
+
+    EQUALS          reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    DIFF            reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    LT              reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    LE              reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    GT              reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    GE              reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    BEGIN           reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    WHILE           reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    IF              reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    WRITE           reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    READ            reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    ID              reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    THEN            reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    SEMICOLON       reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    ELSE            reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    FUNCTION        reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    RPAREN          reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    RBRACKET        reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+    COMMA           reduce using rule 75 (EXP_MAT -> TERMO MINUS EXP_MAT .)
+
+
+state 107
+
+    (77) TERMO -> FATOR TIMES TERMO .
+
+    PLUS            reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    MINUS           reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    EQUALS          reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    DIFF            reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    LT              reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    LE              reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    GT              reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    GE              reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    BEGIN           reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    WHILE           reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    IF              reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    WRITE           reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    READ            reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    ID              reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    THEN            reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    SEMICOLON       reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    ELSE            reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    FUNCTION        reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    RPAREN          reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    RBRACKET        reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+    COMMA           reduce using rule 77 (TERMO -> FATOR TIMES TERMO .)
+
+
+state 108
+
+    (78) TERMO -> FATOR DIVIDE TERMO .
+
+    PLUS            reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    MINUS           reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    EQUALS          reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    DIFF            reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    LT              reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    LE              reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    GT              reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    GE              reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    BEGIN           reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    WHILE           reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    IF              reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    WRITE           reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    READ            reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    ID              reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    THEN            reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    SEMICOLON       reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    ELSE            reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    FUNCTION        reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    RPAREN          reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    RBRACKET        reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+    COMMA           reduce using rule 78 (TERMO -> FATOR DIVIDE TERMO .)
+
+
+state 109
+
+    (81) FATOR -> LPAREN EXP_MAT RPAREN .
+
+    TIMES           reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    DIVIDE          reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    PLUS            reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    MINUS           reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    EQUALS          reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    DIFF            reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    LT              reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    LE              reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    GT              reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    GE              reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    BEGIN           reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    WHILE           reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    IF              reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    WRITE           reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    READ            reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    ID              reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    THEN            reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    SEMICOLON       reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    ELSE            reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    FUNCTION        reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    RPAREN          reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    RBRACKET        reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+    COMMA           reduce using rule 81 (FATOR -> LPAREN EXP_MAT RPAREN .)
+
+
+state 110
+
+    (51) COMANDO -> IF EXP_LOGICA THEN BLOCO . ELSE_OPT
+    (55) COMANDO -> BLOCO .
+    (56) ELSE_OPT -> . ELSE BLOCO
+    (57) ELSE_OPT -> . empty
+    (90) empty -> .
+
+  ! shift/reduce conflict for ELSE resolved as shift
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 55 (COMANDO -> BLOCO .)
+  ! shift/reduce conflict for ELSE resolved as shift
+  ! reduce/reduce conflict for FUNCTION resolved using rule 55 (COMANDO -> BLOCO .)
+  ! reduce/reduce conflict for BEGIN resolved using rule 55 (COMANDO -> BLOCO .)
+    SEMICOLON       reduce using rule 55 (COMANDO -> BLOCO .)
+    FUNCTION        reduce using rule 55 (COMANDO -> BLOCO .)
+    BEGIN           reduce using rule 55 (COMANDO -> BLOCO .)
+    ELSE            shift and go to state 134
+
+  ! ELSE            [ reduce using rule 55 (COMANDO -> BLOCO .) ]
+  ! SEMICOLON       [ reduce using rule 90 (empty -> .) ]
+  ! ELSE            [ reduce using rule 90 (empty -> .) ]
+  ! FUNCTION        [ reduce using rule 90 (empty -> .) ]
+  ! BEGIN           [ reduce using rule 90 (empty -> .) ]
+
+    ELSE_OPT                       shift and go to state 133
+    empty                          shift and go to state 135
+
+state 111
+
+    (52) COMANDO -> WRITE LPAREN EXP_MAT RPAREN .
+
+    SEMICOLON       reduce using rule 52 (COMANDO -> WRITE LPAREN EXP_MAT RPAREN .)
+    ELSE            reduce using rule 52 (COMANDO -> WRITE LPAREN EXP_MAT RPAREN .)
+    FUNCTION        reduce using rule 52 (COMANDO -> WRITE LPAREN EXP_MAT RPAREN .)
+    BEGIN           reduce using rule 52 (COMANDO -> WRITE LPAREN EXP_MAT RPAREN .)
+
+
+state 112
+
+    (53) COMANDO -> WRITE LPAREN STRING RPAREN .
+
+    SEMICOLON       reduce using rule 53 (COMANDO -> WRITE LPAREN STRING RPAREN .)
+    ELSE            reduce using rule 53 (COMANDO -> WRITE LPAREN STRING RPAREN .)
+    FUNCTION        reduce using rule 53 (COMANDO -> WRITE LPAREN STRING RPAREN .)
+    BEGIN           reduce using rule 53 (COMANDO -> WRITE LPAREN STRING RPAREN .)
+
+
+state 113
+
+    (54) COMANDO -> READ LPAREN NOME RPAREN .
+
+    SEMICOLON       reduce using rule 54 (COMANDO -> READ LPAREN NOME RPAREN .)
+    ELSE            reduce using rule 54 (COMANDO -> READ LPAREN NOME RPAREN .)
+    FUNCTION        reduce using rule 54 (COMANDO -> READ LPAREN NOME RPAREN .)
+    BEGIN           reduce using rule 54 (COMANDO -> READ LPAREN NOME RPAREN .)
+
+
+state 114
+
+    (87) NOME_CONT -> DOT ID NOME_CONT .
+
+    ASSIGN          reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    TIMES           reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    DIVIDE          reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    PLUS            reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    MINUS           reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    EQUALS          reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    DIFF            reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    LT              reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    LE              reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    GT              reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    GE              reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    BEGIN           reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    WHILE           reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    IF              reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    WRITE           reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    READ            reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    ID              reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    THEN            reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    RPAREN          reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    RBRACKET        reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    SEMICOLON       reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    ELSE            reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    FUNCTION        reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+    COMMA           reduce using rule 87 (NOME_CONT -> DOT ID NOME_CONT .)
+
+
+state 115
+
+    (88) NOME_CONT -> LBRACKET EXP_MAT RBRACKET .
+
+    ASSIGN          reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    TIMES           reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    DIVIDE          reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    PLUS            reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    MINUS           reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    EQUALS          reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    DIFF            reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    LT              reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    LE              reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    GT              reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    GE              reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    BEGIN           reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    WHILE           reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    IF              reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    WRITE           reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    READ            reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    ID              reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    THEN            reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    RPAREN          reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    RBRACKET        reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    SEMICOLON       reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    ELSE            reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    FUNCTION        reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+    COMMA           reduce using rule 88 (NOME_CONT -> LBRACKET EXP_MAT RBRACKET .)
+
+
+state 116
+
+    (34) LISTA_FUNC -> FUNCAO LISTA_FUNC .
+
+    BEGIN           reduce using rule 34 (LISTA_FUNC -> FUNCAO LISTA_FUNC .)
+
+
+state 117
+
+    (36) FUNCAO -> FUNCTION ID . LPAREN PARAM_FORM RPAREN COLON TIPO_DADO BLOCO_FUNCAO
+    (37) FUNCAO -> FUNCTION ID . LPAREN RPAREN COLON TIPO_DADO BLOCO_FUNCAO
+
+    LPAREN          shift and go to state 136
+
+
+state 118
+
+    (27) LISTA_VAR -> VARIAVEL SEMICOLON . LISTA_VAR
+    (28) LISTA_VAR -> VARIAVEL SEMICOLON .
+    (27) LISTA_VAR -> . VARIAVEL SEMICOLON LISTA_VAR
+    (28) LISTA_VAR -> . VARIAVEL SEMICOLON
+    (29) LISTA_VAR -> . empty
+    (30) VARIAVEL -> . LISTA_ID COLON TIPO_DADO
+    (90) empty -> .
+    (31) LISTA_ID -> . ID COMMA LISTA_ID
+    (32) LISTA_ID -> . ID
+    (33) LISTA_ID -> . empty
+
+  ! reduce/reduce conflict for FUNCTION resolved using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+  ! reduce/reduce conflict for BEGIN resolved using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+  ! reduce/reduce conflict for WHILE resolved using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+  ! reduce/reduce conflict for IF resolved using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+  ! reduce/reduce conflict for WRITE resolved using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+  ! reduce/reduce conflict for READ resolved using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+  ! reduce/reduce conflict for ID resolved using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+  ! reduce/reduce conflict for END resolved using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+  ! shift/reduce conflict for ID resolved as shift
+    FUNCTION        reduce using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+    BEGIN           reduce using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+    WHILE           reduce using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+    IF              reduce using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+    WRITE           reduce using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+    READ            reduce using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+    END             reduce using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .)
+    COLON           reduce using rule 90 (empty -> .)
+    ID              shift and go to state 95
+
+  ! ID              [ reduce using rule 28 (LISTA_VAR -> VARIAVEL SEMICOLON .) ]
+  ! FUNCTION        [ reduce using rule 90 (empty -> .) ]
+  ! BEGIN           [ reduce using rule 90 (empty -> .) ]
+  ! WHILE           [ reduce using rule 90 (empty -> .) ]
+  ! IF              [ reduce using rule 90 (empty -> .) ]
+  ! WRITE           [ reduce using rule 90 (empty -> .) ]
+  ! READ            [ reduce using rule 90 (empty -> .) ]
+  ! ID              [ reduce using rule 90 (empty -> .) ]
+  ! END             [ reduce using rule 90 (empty -> .) ]
+
+    VARIAVEL                       shift and go to state 92
+    LISTA_VAR                      shift and go to state 137
+    empty                          shift and go to state 93
+    LISTA_ID                       shift and go to state 94
+
+state 119
+
+    (30) VARIAVEL -> LISTA_ID COLON . TIPO_DADO
+    (20) TIPO_DADO -> . INTEGER
+    (21) TIPO_DADO -> . REAL
+    (22) TIPO_DADO -> . ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO
+    (23) TIPO_DADO -> . RECORD LISTA_VAR END
+    (24) TIPO_DADO -> . ID
+
+    INTEGER         shift and go to state 124
+    REAL            shift and go to state 125
+    ARRAY           shift and go to state 126
+    RECORD          shift and go to state 127
+    ID              shift and go to state 122
+
+    TIPO_DADO                      shift and go to state 138
+
+state 120
+
+    (31) LISTA_ID -> ID COMMA . LISTA_ID
+    (31) LISTA_ID -> . ID COMMA LISTA_ID
+    (32) LISTA_ID -> . ID
+    (33) LISTA_ID -> . empty
+    (90) empty -> .
+
+    ID              shift and go to state 95
+    COLON           reduce using rule 90 (empty -> .)
+
+    LISTA_ID                       shift and go to state 139
+    empty                          shift and go to state 140
+
+state 121
+
+    (16) LISTA_TIPOS -> TIPO SEMICOLON LISTA_TIPOS .
+
+    VAR             reduce using rule 16 (LISTA_TIPOS -> TIPO SEMICOLON LISTA_TIPOS .)
+    FUNCTION        reduce using rule 16 (LISTA_TIPOS -> TIPO SEMICOLON LISTA_TIPOS .)
+    BEGIN           reduce using rule 16 (LISTA_TIPOS -> TIPO SEMICOLON LISTA_TIPOS .)
+
+
+state 122
+
+    (24) TIPO_DADO -> ID .
+
+    SEMICOLON       reduce using rule 24 (TIPO_DADO -> ID .)
+    VAR             reduce using rule 24 (TIPO_DADO -> ID .)
+    BEGIN           reduce using rule 24 (TIPO_DADO -> ID .)
+    WHILE           reduce using rule 24 (TIPO_DADO -> ID .)
+    IF              reduce using rule 24 (TIPO_DADO -> ID .)
+    WRITE           reduce using rule 24 (TIPO_DADO -> ID .)
+    READ            reduce using rule 24 (TIPO_DADO -> ID .)
+    ID              reduce using rule 24 (TIPO_DADO -> ID .)
+    COMMA           reduce using rule 24 (TIPO_DADO -> ID .)
+    RPAREN          reduce using rule 24 (TIPO_DADO -> ID .)
+
+
+state 123
+
+    (19) TIPO -> ID ASSIGN TIPO_DADO .
+
+    SEMICOLON       reduce using rule 19 (TIPO -> ID ASSIGN TIPO_DADO .)
+
+
+state 124
+
+    (20) TIPO_DADO -> INTEGER .
+
+    SEMICOLON       reduce using rule 20 (TIPO_DADO -> INTEGER .)
+    VAR             reduce using rule 20 (TIPO_DADO -> INTEGER .)
+    BEGIN           reduce using rule 20 (TIPO_DADO -> INTEGER .)
+    WHILE           reduce using rule 20 (TIPO_DADO -> INTEGER .)
+    IF              reduce using rule 20 (TIPO_DADO -> INTEGER .)
+    WRITE           reduce using rule 20 (TIPO_DADO -> INTEGER .)
+    READ            reduce using rule 20 (TIPO_DADO -> INTEGER .)
+    ID              reduce using rule 20 (TIPO_DADO -> INTEGER .)
+    COMMA           reduce using rule 20 (TIPO_DADO -> INTEGER .)
+    RPAREN          reduce using rule 20 (TIPO_DADO -> INTEGER .)
+
+
+state 125
+
+    (21) TIPO_DADO -> REAL .
+
+    SEMICOLON       reduce using rule 21 (TIPO_DADO -> REAL .)
+    VAR             reduce using rule 21 (TIPO_DADO -> REAL .)
+    BEGIN           reduce using rule 21 (TIPO_DADO -> REAL .)
+    WHILE           reduce using rule 21 (TIPO_DADO -> REAL .)
+    IF              reduce using rule 21 (TIPO_DADO -> REAL .)
+    WRITE           reduce using rule 21 (TIPO_DADO -> REAL .)
+    READ            reduce using rule 21 (TIPO_DADO -> REAL .)
+    ID              reduce using rule 21 (TIPO_DADO -> REAL .)
+    COMMA           reduce using rule 21 (TIPO_DADO -> REAL .)
+    RPAREN          reduce using rule 21 (TIPO_DADO -> REAL .)
+
+
+state 126
+
+    (22) TIPO_DADO -> ARRAY . LBRACKET NUM_INT RBRACKET OF TIPO_DADO
+
+    LBRACKET        shift and go to state 141
+
+
+state 127
+
+    (23) TIPO_DADO -> RECORD . LISTA_VAR END
+    (27) LISTA_VAR -> . VARIAVEL SEMICOLON LISTA_VAR
+    (28) LISTA_VAR -> . VARIAVEL SEMICOLON
+    (29) LISTA_VAR -> . empty
+    (30) VARIAVEL -> . LISTA_ID COLON TIPO_DADO
+    (90) empty -> .
+    (31) LISTA_ID -> . ID COMMA LISTA_ID
+    (32) LISTA_ID -> . ID
+    (33) LISTA_ID -> . empty
+
+    END             reduce using rule 90 (empty -> .)
+    COLON           reduce using rule 90 (empty -> .)
+    ID              shift and go to state 95
+
+    LISTA_VAR                      shift and go to state 142
+    VARIAVEL                       shift and go to state 92
+    empty                          shift and go to state 93
+    LISTA_ID                       shift and go to state 94
+
+state 128
+
+    (11) CONSTANTE -> ID ASSIGN CONST_VALOR SEMICOLON .
+
+    SEMICOLON       reduce using rule 11 (CONSTANTE -> ID ASSIGN CONST_VALOR SEMICOLON .)
+
+
+state 129
+
+    (60) LISTA_ARG -> LPAREN LISTA_EXP . RPAREN
+
+    RPAREN          shift and go to state 143
+
+
+state 130
+
+    (61) LISTA_ARG -> LPAREN RPAREN .
+
+    SEMICOLON       reduce using rule 61 (LISTA_ARG -> LPAREN RPAREN .)
+    ELSE            reduce using rule 61 (LISTA_ARG -> LPAREN RPAREN .)
+    FUNCTION        reduce using rule 61 (LISTA_ARG -> LPAREN RPAREN .)
+    BEGIN           reduce using rule 61 (LISTA_ARG -> LPAREN RPAREN .)
+
+
+state 131
+
+    (62) LISTA_EXP -> EXP_MAT . COMMA LISTA_EXP
+    (63) LISTA_EXP -> EXP_MAT .
+
+    COMMA           shift and go to state 144
+    RPAREN          reduce using rule 63 (LISTA_EXP -> EXP_MAT .)
+
+
+state 132
+
+    (64) LISTA_EXP -> empty .
+
+    RPAREN          reduce using rule 64 (LISTA_EXP -> empty .)
+
+
+state 133
+
+    (51) COMANDO -> IF EXP_LOGICA THEN BLOCO ELSE_OPT .
+
+    SEMICOLON       reduce using rule 51 (COMANDO -> IF EXP_LOGICA THEN BLOCO ELSE_OPT .)
+    ELSE            reduce using rule 51 (COMANDO -> IF EXP_LOGICA THEN BLOCO ELSE_OPT .)
+    FUNCTION        reduce using rule 51 (COMANDO -> IF EXP_LOGICA THEN BLOCO ELSE_OPT .)
+    BEGIN           reduce using rule 51 (COMANDO -> IF EXP_LOGICA THEN BLOCO ELSE_OPT .)
+
+
+state 134
+
+    (56) ELSE_OPT -> ELSE . BLOCO
+    (44) BLOCO -> . BEGIN LISTA_COM END
+    (45) BLOCO -> . COMANDO
+    (49) COMANDO -> . NOME ASSIGN VALOR
+    (50) COMANDO -> . WHILE EXP_LOGICA BLOCO
+    (51) COMANDO -> . IF EXP_LOGICA THEN BLOCO ELSE_OPT
+    (52) COMANDO -> . WRITE LPAREN EXP_MAT RPAREN
+    (53) COMANDO -> . WRITE LPAREN STRING RPAREN
+    (54) COMANDO -> . READ LPAREN NOME RPAREN
+    (55) COMANDO -> . BLOCO
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    BEGIN           shift and go to state 12
+    WHILE           shift and go to state 17
+    IF              shift and go to state 19
+    WRITE           shift and go to state 20
+    READ            shift and go to state 21
+    ID              shift and go to state 22
+
+    BLOCO                          shift and go to state 145
+    COMANDO                        shift and go to state 68
+    NOME                           shift and go to state 16
+
+state 135
+
+    (57) ELSE_OPT -> empty .
+
+    SEMICOLON       reduce using rule 57 (ELSE_OPT -> empty .)
+    ELSE            reduce using rule 57 (ELSE_OPT -> empty .)
+    FUNCTION        reduce using rule 57 (ELSE_OPT -> empty .)
+    BEGIN           reduce using rule 57 (ELSE_OPT -> empty .)
+
+
+state 136
+
+    (36) FUNCAO -> FUNCTION ID LPAREN . PARAM_FORM RPAREN COLON TIPO_DADO BLOCO_FUNCAO
+    (37) FUNCAO -> FUNCTION ID LPAREN . RPAREN COLON TIPO_DADO BLOCO_FUNCAO
+    (38) PARAM_FORM -> . PARAM COMMA PARAM_FORM
+    (39) PARAM_FORM -> . PARAM
+    (40) PARAM_FORM -> . empty
+    (41) PARAM -> . LISTA_ID COLON TIPO_DADO
+    (90) empty -> .
+    (31) LISTA_ID -> . ID COMMA LISTA_ID
+    (32) LISTA_ID -> . ID
+    (33) LISTA_ID -> . empty
+
+  ! shift/reduce conflict for RPAREN resolved as shift
+    RPAREN          shift and go to state 147
+    COLON           reduce using rule 90 (empty -> .)
+    ID              shift and go to state 95
+
+  ! RPAREN          [ reduce using rule 90 (empty -> .) ]
+
+    PARAM_FORM                     shift and go to state 146
+    PARAM                          shift and go to state 148
+    empty                          shift and go to state 149
+    LISTA_ID                       shift and go to state 150
+
+state 137
+
+    (27) LISTA_VAR -> VARIAVEL SEMICOLON LISTA_VAR .
+
+    FUNCTION        reduce using rule 27 (LISTA_VAR -> VARIAVEL SEMICOLON LISTA_VAR .)
+    BEGIN           reduce using rule 27 (LISTA_VAR -> VARIAVEL SEMICOLON LISTA_VAR .)
+    WHILE           reduce using rule 27 (LISTA_VAR -> VARIAVEL SEMICOLON LISTA_VAR .)
+    IF              reduce using rule 27 (LISTA_VAR -> VARIAVEL SEMICOLON LISTA_VAR .)
+    WRITE           reduce using rule 27 (LISTA_VAR -> VARIAVEL SEMICOLON LISTA_VAR .)
+    READ            reduce using rule 27 (LISTA_VAR -> VARIAVEL SEMICOLON LISTA_VAR .)
+    ID              reduce using rule 27 (LISTA_VAR -> VARIAVEL SEMICOLON LISTA_VAR .)
+    END             reduce using rule 27 (LISTA_VAR -> VARIAVEL SEMICOLON LISTA_VAR .)
+
+
+state 138
+
+    (30) VARIAVEL -> LISTA_ID COLON TIPO_DADO .
+
+    SEMICOLON       reduce using rule 30 (VARIAVEL -> LISTA_ID COLON TIPO_DADO .)
+
+
+state 139
+
+    (31) LISTA_ID -> ID COMMA LISTA_ID .
+
+    COLON           reduce using rule 31 (LISTA_ID -> ID COMMA LISTA_ID .)
+
+
+state 140
+
+    (33) LISTA_ID -> empty .
+
+    COLON           reduce using rule 33 (LISTA_ID -> empty .)
+
+
+state 141
+
+    (22) TIPO_DADO -> ARRAY LBRACKET . NUM_INT RBRACKET OF TIPO_DADO
+
+    NUM_INT         shift and go to state 151
+
+
+state 142
+
+    (23) TIPO_DADO -> RECORD LISTA_VAR . END
+
+    END             shift and go to state 152
+
+
+state 143
+
+    (60) LISTA_ARG -> LPAREN LISTA_EXP RPAREN .
+
+    SEMICOLON       reduce using rule 60 (LISTA_ARG -> LPAREN LISTA_EXP RPAREN .)
+    ELSE            reduce using rule 60 (LISTA_ARG -> LPAREN LISTA_EXP RPAREN .)
+    FUNCTION        reduce using rule 60 (LISTA_ARG -> LPAREN LISTA_EXP RPAREN .)
+    BEGIN           reduce using rule 60 (LISTA_ARG -> LPAREN LISTA_EXP RPAREN .)
+
+
+state 144
+
+    (62) LISTA_EXP -> EXP_MAT COMMA . LISTA_EXP
+    (62) LISTA_EXP -> . EXP_MAT COMMA LISTA_EXP
+    (63) LISTA_EXP -> . EXP_MAT
+    (64) LISTA_EXP -> . empty
+    (74) EXP_MAT -> . TERMO PLUS EXP_MAT
+    (75) EXP_MAT -> . TERMO MINUS EXP_MAT
+    (76) EXP_MAT -> . TERMO
+    (90) empty -> .
+    (77) TERMO -> . FATOR TIMES TERMO
+    (78) TERMO -> . FATOR DIVIDE TERMO
+    (79) TERMO -> . FATOR
+    (80) FATOR -> . PARAMETRO
+    (81) FATOR -> . LPAREN EXP_MAT RPAREN
+    (82) PARAMETRO -> . NOME
+    (83) PARAMETRO -> . NUM_INT
+    (84) PARAMETRO -> . NUM_REAL
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    RPAREN          reduce using rule 90 (empty -> .)
+    LPAREN          shift and go to state 41
+    NUM_INT         shift and go to state 43
+    NUM_REAL        shift and go to state 44
+    ID              shift and go to state 22
+
+    EXP_MAT                        shift and go to state 131
+    LISTA_EXP                      shift and go to state 153
+    empty                          shift and go to state 132
+    TERMO                          shift and go to state 38
+    FATOR                          shift and go to state 39
+    PARAMETRO                      shift and go to state 40
+    NOME                           shift and go to state 42
+
+state 145
+
+    (56) ELSE_OPT -> ELSE BLOCO .
+    (55) COMANDO -> BLOCO .
+
+  ! reduce/reduce conflict for SEMICOLON resolved using rule 55 (COMANDO -> BLOCO .)
+  ! reduce/reduce conflict for ELSE resolved using rule 55 (COMANDO -> BLOCO .)
+  ! reduce/reduce conflict for FUNCTION resolved using rule 55 (COMANDO -> BLOCO .)
+  ! reduce/reduce conflict for BEGIN resolved using rule 55 (COMANDO -> BLOCO .)
+    SEMICOLON       reduce using rule 55 (COMANDO -> BLOCO .)
+    ELSE            reduce using rule 55 (COMANDO -> BLOCO .)
+    FUNCTION        reduce using rule 55 (COMANDO -> BLOCO .)
+    BEGIN           reduce using rule 55 (COMANDO -> BLOCO .)
+
+  ! SEMICOLON       [ reduce using rule 56 (ELSE_OPT -> ELSE BLOCO .) ]
+  ! ELSE            [ reduce using rule 56 (ELSE_OPT -> ELSE BLOCO .) ]
+  ! FUNCTION        [ reduce using rule 56 (ELSE_OPT -> ELSE BLOCO .) ]
+  ! BEGIN           [ reduce using rule 56 (ELSE_OPT -> ELSE BLOCO .) ]
+
+
+state 146
+
+    (36) FUNCAO -> FUNCTION ID LPAREN PARAM_FORM . RPAREN COLON TIPO_DADO BLOCO_FUNCAO
+
+    RPAREN          shift and go to state 154
+
+
+state 147
+
+    (37) FUNCAO -> FUNCTION ID LPAREN RPAREN . COLON TIPO_DADO BLOCO_FUNCAO
+
+    COLON           shift and go to state 155
+
+
+state 148
+
+    (38) PARAM_FORM -> PARAM . COMMA PARAM_FORM
+    (39) PARAM_FORM -> PARAM .
+
+    COMMA           shift and go to state 156
+    RPAREN          reduce using rule 39 (PARAM_FORM -> PARAM .)
+
+
+state 149
+
+    (40) PARAM_FORM -> empty .
+    (33) LISTA_ID -> empty .
+
+    RPAREN          reduce using rule 40 (PARAM_FORM -> empty .)
+    COLON           reduce using rule 33 (LISTA_ID -> empty .)
+
+
+state 150
+
+    (41) PARAM -> LISTA_ID . COLON TIPO_DADO
+
+    COLON           shift and go to state 157
+
+
+state 151
+
+    (22) TIPO_DADO -> ARRAY LBRACKET NUM_INT . RBRACKET OF TIPO_DADO
+
+    RBRACKET        shift and go to state 158
+
+
+state 152
+
+    (23) TIPO_DADO -> RECORD LISTA_VAR END .
+
+    SEMICOLON       reduce using rule 23 (TIPO_DADO -> RECORD LISTA_VAR END .)
+    VAR             reduce using rule 23 (TIPO_DADO -> RECORD LISTA_VAR END .)
+    BEGIN           reduce using rule 23 (TIPO_DADO -> RECORD LISTA_VAR END .)
+    WHILE           reduce using rule 23 (TIPO_DADO -> RECORD LISTA_VAR END .)
+    IF              reduce using rule 23 (TIPO_DADO -> RECORD LISTA_VAR END .)
+    WRITE           reduce using rule 23 (TIPO_DADO -> RECORD LISTA_VAR END .)
+    READ            reduce using rule 23 (TIPO_DADO -> RECORD LISTA_VAR END .)
+    ID              reduce using rule 23 (TIPO_DADO -> RECORD LISTA_VAR END .)
+    COMMA           reduce using rule 23 (TIPO_DADO -> RECORD LISTA_VAR END .)
+    RPAREN          reduce using rule 23 (TIPO_DADO -> RECORD LISTA_VAR END .)
+
+
+state 153
+
+    (62) LISTA_EXP -> EXP_MAT COMMA LISTA_EXP .
+
+    RPAREN          reduce using rule 62 (LISTA_EXP -> EXP_MAT COMMA LISTA_EXP .)
+
+
+state 154
+
+    (36) FUNCAO -> FUNCTION ID LPAREN PARAM_FORM RPAREN . COLON TIPO_DADO BLOCO_FUNCAO
+
+    COLON           shift and go to state 159
+
+
+state 155
+
+    (37) FUNCAO -> FUNCTION ID LPAREN RPAREN COLON . TIPO_DADO BLOCO_FUNCAO
+    (20) TIPO_DADO -> . INTEGER
+    (21) TIPO_DADO -> . REAL
+    (22) TIPO_DADO -> . ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO
+    (23) TIPO_DADO -> . RECORD LISTA_VAR END
+    (24) TIPO_DADO -> . ID
+
+    INTEGER         shift and go to state 124
+    REAL            shift and go to state 125
+    ARRAY           shift and go to state 126
+    RECORD          shift and go to state 127
+    ID              shift and go to state 122
+
+    TIPO_DADO                      shift and go to state 160
+
+state 156
+
+    (38) PARAM_FORM -> PARAM COMMA . PARAM_FORM
+    (38) PARAM_FORM -> . PARAM COMMA PARAM_FORM
+    (39) PARAM_FORM -> . PARAM
+    (40) PARAM_FORM -> . empty
+    (41) PARAM -> . LISTA_ID COLON TIPO_DADO
+    (90) empty -> .
+    (31) LISTA_ID -> . ID COMMA LISTA_ID
+    (32) LISTA_ID -> . ID
+    (33) LISTA_ID -> . empty
+
+    RPAREN          reduce using rule 90 (empty -> .)
+    COLON           reduce using rule 90 (empty -> .)
+    ID              shift and go to state 95
+
+    PARAM                          shift and go to state 148
+    PARAM_FORM                     shift and go to state 161
+    empty                          shift and go to state 149
+    LISTA_ID                       shift and go to state 150
+
+state 157
+
+    (41) PARAM -> LISTA_ID COLON . TIPO_DADO
+    (20) TIPO_DADO -> . INTEGER
+    (21) TIPO_DADO -> . REAL
+    (22) TIPO_DADO -> . ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO
+    (23) TIPO_DADO -> . RECORD LISTA_VAR END
+    (24) TIPO_DADO -> . ID
+
+    INTEGER         shift and go to state 124
+    REAL            shift and go to state 125
+    ARRAY           shift and go to state 126
+    RECORD          shift and go to state 127
+    ID              shift and go to state 122
+
+    TIPO_DADO                      shift and go to state 162
+
+state 158
+
+    (22) TIPO_DADO -> ARRAY LBRACKET NUM_INT RBRACKET . OF TIPO_DADO
+
+    OF              shift and go to state 163
+
+
+state 159
+
+    (36) FUNCAO -> FUNCTION ID LPAREN PARAM_FORM RPAREN COLON . TIPO_DADO BLOCO_FUNCAO
+    (20) TIPO_DADO -> . INTEGER
+    (21) TIPO_DADO -> . REAL
+    (22) TIPO_DADO -> . ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO
+    (23) TIPO_DADO -> . RECORD LISTA_VAR END
+    (24) TIPO_DADO -> . ID
+
+    INTEGER         shift and go to state 124
+    REAL            shift and go to state 125
+    ARRAY           shift and go to state 126
+    RECORD          shift and go to state 127
+    ID              shift and go to state 122
+
+    TIPO_DADO                      shift and go to state 164
+
+state 160
+
+    (37) FUNCAO -> FUNCTION ID LPAREN RPAREN COLON TIPO_DADO . BLOCO_FUNCAO
+    (42) BLOCO_FUNCAO -> . DEF_VAR BLOCO
+    (43) BLOCO_FUNCAO -> . BLOCO
+    (25) DEF_VAR -> . VAR LISTA_VAR
+    (26) DEF_VAR -> . empty
+    (44) BLOCO -> . BEGIN LISTA_COM END
+    (45) BLOCO -> . COMANDO
+    (90) empty -> .
+    (49) COMANDO -> . NOME ASSIGN VALOR
+    (50) COMANDO -> . WHILE EXP_LOGICA BLOCO
+    (51) COMANDO -> . IF EXP_LOGICA THEN BLOCO ELSE_OPT
+    (52) COMANDO -> . WRITE LPAREN EXP_MAT RPAREN
+    (53) COMANDO -> . WRITE LPAREN STRING RPAREN
+    (54) COMANDO -> . READ LPAREN NOME RPAREN
+    (55) COMANDO -> . BLOCO
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+  ! shift/reduce conflict for BEGIN resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WRITE resolved as shift
+  ! shift/reduce conflict for READ resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+    VAR             shift and go to state 53
+    BEGIN           shift and go to state 12
+    WHILE           shift and go to state 17
+    IF              shift and go to state 19
+    WRITE           shift and go to state 20
+    READ            shift and go to state 21
+    ID              shift and go to state 22
+
+  ! BEGIN           [ reduce using rule 90 (empty -> .) ]
+  ! WHILE           [ reduce using rule 90 (empty -> .) ]
+  ! IF              [ reduce using rule 90 (empty -> .) ]
+  ! WRITE           [ reduce using rule 90 (empty -> .) ]
+  ! READ            [ reduce using rule 90 (empty -> .) ]
+  ! ID              [ reduce using rule 90 (empty -> .) ]
+
+    BLOCO_FUNCAO                   shift and go to state 165
+    DEF_VAR                        shift and go to state 166
+    BLOCO                          shift and go to state 167
+    empty                          shift and go to state 54
+    COMANDO                        shift and go to state 68
+    NOME                           shift and go to state 16
+
+state 161
+
+    (38) PARAM_FORM -> PARAM COMMA PARAM_FORM .
+
+    RPAREN          reduce using rule 38 (PARAM_FORM -> PARAM COMMA PARAM_FORM .)
+
+
+state 162
+
+    (41) PARAM -> LISTA_ID COLON TIPO_DADO .
+
+    COMMA           reduce using rule 41 (PARAM -> LISTA_ID COLON TIPO_DADO .)
+    RPAREN          reduce using rule 41 (PARAM -> LISTA_ID COLON TIPO_DADO .)
+
+
+state 163
+
+    (22) TIPO_DADO -> ARRAY LBRACKET NUM_INT RBRACKET OF . TIPO_DADO
+    (20) TIPO_DADO -> . INTEGER
+    (21) TIPO_DADO -> . REAL
+    (22) TIPO_DADO -> . ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO
+    (23) TIPO_DADO -> . RECORD LISTA_VAR END
+    (24) TIPO_DADO -> . ID
+
+    INTEGER         shift and go to state 124
+    REAL            shift and go to state 125
+    ARRAY           shift and go to state 126
+    RECORD          shift and go to state 127
+    ID              shift and go to state 122
+
+    TIPO_DADO                      shift and go to state 168
+
+state 164
+
+    (36) FUNCAO -> FUNCTION ID LPAREN PARAM_FORM RPAREN COLON TIPO_DADO . BLOCO_FUNCAO
+    (42) BLOCO_FUNCAO -> . DEF_VAR BLOCO
+    (43) BLOCO_FUNCAO -> . BLOCO
+    (25) DEF_VAR -> . VAR LISTA_VAR
+    (26) DEF_VAR -> . empty
+    (44) BLOCO -> . BEGIN LISTA_COM END
+    (45) BLOCO -> . COMANDO
+    (90) empty -> .
+    (49) COMANDO -> . NOME ASSIGN VALOR
+    (50) COMANDO -> . WHILE EXP_LOGICA BLOCO
+    (51) COMANDO -> . IF EXP_LOGICA THEN BLOCO ELSE_OPT
+    (52) COMANDO -> . WRITE LPAREN EXP_MAT RPAREN
+    (53) COMANDO -> . WRITE LPAREN STRING RPAREN
+    (54) COMANDO -> . READ LPAREN NOME RPAREN
+    (55) COMANDO -> . BLOCO
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+  ! shift/reduce conflict for BEGIN resolved as shift
+  ! shift/reduce conflict for WHILE resolved as shift
+  ! shift/reduce conflict for IF resolved as shift
+  ! shift/reduce conflict for WRITE resolved as shift
+  ! shift/reduce conflict for READ resolved as shift
+  ! shift/reduce conflict for ID resolved as shift
+    VAR             shift and go to state 53
+    BEGIN           shift and go to state 12
+    WHILE           shift and go to state 17
+    IF              shift and go to state 19
+    WRITE           shift and go to state 20
+    READ            shift and go to state 21
+    ID              shift and go to state 22
+
+  ! BEGIN           [ reduce using rule 90 (empty -> .) ]
+  ! WHILE           [ reduce using rule 90 (empty -> .) ]
+  ! IF              [ reduce using rule 90 (empty -> .) ]
+  ! WRITE           [ reduce using rule 90 (empty -> .) ]
+  ! READ            [ reduce using rule 90 (empty -> .) ]
+  ! ID              [ reduce using rule 90 (empty -> .) ]
+
+    BLOCO_FUNCAO                   shift and go to state 169
+    DEF_VAR                        shift and go to state 166
+    BLOCO                          shift and go to state 167
+    empty                          shift and go to state 54
+    COMANDO                        shift and go to state 68
+    NOME                           shift and go to state 16
+
+state 165
+
+    (37) FUNCAO -> FUNCTION ID LPAREN RPAREN COLON TIPO_DADO BLOCO_FUNCAO .
+
+    FUNCTION        reduce using rule 37 (FUNCAO -> FUNCTION ID LPAREN RPAREN COLON TIPO_DADO BLOCO_FUNCAO .)
+    BEGIN           reduce using rule 37 (FUNCAO -> FUNCTION ID LPAREN RPAREN COLON TIPO_DADO BLOCO_FUNCAO .)
+
+
+state 166
+
+    (42) BLOCO_FUNCAO -> DEF_VAR . BLOCO
+    (44) BLOCO -> . BEGIN LISTA_COM END
+    (45) BLOCO -> . COMANDO
+    (49) COMANDO -> . NOME ASSIGN VALOR
+    (50) COMANDO -> . WHILE EXP_LOGICA BLOCO
+    (51) COMANDO -> . IF EXP_LOGICA THEN BLOCO ELSE_OPT
+    (52) COMANDO -> . WRITE LPAREN EXP_MAT RPAREN
+    (53) COMANDO -> . WRITE LPAREN STRING RPAREN
+    (54) COMANDO -> . READ LPAREN NOME RPAREN
+    (55) COMANDO -> . BLOCO
+    (85) NOME -> . ID NOME_CONT
+    (86) NOME -> . ID
+
+    BEGIN           shift and go to state 12
+    WHILE           shift and go to state 17
+    IF              shift and go to state 19
+    WRITE           shift and go to state 20
+    READ            shift and go to state 21
+    ID              shift and go to state 22
+
+    BLOCO                          shift and go to state 170
+    COMANDO                        shift and go to state 68
+    NOME                           shift and go to state 16
+
+state 167
+
+    (43) BLOCO_FUNCAO -> BLOCO .
+    (55) COMANDO -> BLOCO .
+
+  ! reduce/reduce conflict for FUNCTION resolved using rule 43 (BLOCO_FUNCAO -> BLOCO .)
+  ! reduce/reduce conflict for BEGIN resolved using rule 43 (BLOCO_FUNCAO -> BLOCO .)
+    FUNCTION        reduce using rule 43 (BLOCO_FUNCAO -> BLOCO .)
+    BEGIN           reduce using rule 43 (BLOCO_FUNCAO -> BLOCO .)
+
+  ! FUNCTION        [ reduce using rule 55 (COMANDO -> BLOCO .) ]
+  ! BEGIN           [ reduce using rule 55 (COMANDO -> BLOCO .) ]
+
+
+state 168
+
+    (22) TIPO_DADO -> ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO .
+
+    SEMICOLON       reduce using rule 22 (TIPO_DADO -> ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO .)
+    VAR             reduce using rule 22 (TIPO_DADO -> ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO .)
+    BEGIN           reduce using rule 22 (TIPO_DADO -> ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO .)
+    WHILE           reduce using rule 22 (TIPO_DADO -> ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO .)
+    IF              reduce using rule 22 (TIPO_DADO -> ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO .)
+    WRITE           reduce using rule 22 (TIPO_DADO -> ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO .)
+    READ            reduce using rule 22 (TIPO_DADO -> ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO .)
+    ID              reduce using rule 22 (TIPO_DADO -> ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO .)
+    COMMA           reduce using rule 22 (TIPO_DADO -> ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO .)
+    RPAREN          reduce using rule 22 (TIPO_DADO -> ARRAY LBRACKET NUM_INT RBRACKET OF TIPO_DADO .)
+
+
+state 169
+
+    (36) FUNCAO -> FUNCTION ID LPAREN PARAM_FORM RPAREN COLON TIPO_DADO BLOCO_FUNCAO .
+
+    FUNCTION        reduce using rule 36 (FUNCAO -> FUNCTION ID LPAREN PARAM_FORM RPAREN COLON TIPO_DADO BLOCO_FUNCAO .)
+    BEGIN           reduce using rule 36 (FUNCAO -> FUNCTION ID LPAREN PARAM_FORM RPAREN COLON TIPO_DADO BLOCO_FUNCAO .)
+
+
+state 170
+
+    (42) BLOCO_FUNCAO -> DEF_VAR BLOCO .
+    (55) COMANDO -> BLOCO .
+
+  ! reduce/reduce conflict for FUNCTION resolved using rule 42 (BLOCO_FUNCAO -> DEF_VAR BLOCO .)
+  ! reduce/reduce conflict for BEGIN resolved using rule 42 (BLOCO_FUNCAO -> DEF_VAR BLOCO .)
+    FUNCTION        reduce using rule 42 (BLOCO_FUNCAO -> DEF_VAR BLOCO .)
+    BEGIN           reduce using rule 42 (BLOCO_FUNCAO -> DEF_VAR BLOCO .)
+
+  ! FUNCTION        [ reduce using rule 55 (COMANDO -> BLOCO .) ]
+  ! BEGIN           [ reduce using rule 55 (COMANDO -> BLOCO .) ]
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for BEGIN in state 4 resolved as shift
+WARNING: shift/reduce conflict for SEMICOLON in state 14 resolved as shift
+WARNING: shift/reduce conflict for ID in state 53 resolved as shift
+WARNING: shift/reduce conflict for RPAREN in state 103 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 110 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 110 resolved as shift
+WARNING: shift/reduce conflict for ID in state 118 resolved as shift
+WARNING: shift/reduce conflict for RPAREN in state 136 resolved as shift
+WARNING: shift/reduce conflict for BEGIN in state 160 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 160 resolved as shift
+WARNING: shift/reduce conflict for IF in state 160 resolved as shift
+WARNING: shift/reduce conflict for WRITE in state 160 resolved as shift
+WARNING: shift/reduce conflict for READ in state 160 resolved as shift
+WARNING: shift/reduce conflict for ID in state 160 resolved as shift
+WARNING: shift/reduce conflict for BEGIN in state 164 resolved as shift
+WARNING: shift/reduce conflict for WHILE in state 164 resolved as shift
+WARNING: shift/reduce conflict for IF in state 164 resolved as shift
+WARNING: shift/reduce conflict for WRITE in state 164 resolved as shift
+WARNING: shift/reduce conflict for READ in state 164 resolved as shift
+WARNING: shift/reduce conflict for ID in state 164 resolved as shift
+WARNING: reduce/reduce conflict in state 9 resolved using rule (DECLARACOES -> empty)
+WARNING: rejected rule (DEF_CONST -> empty) in state 9
+WARNING: reduce/reduce conflict in state 22 resolved using rule (NOME -> ID)
+WARNING: rejected rule (empty -> <empty>) in state 22
+WARNING: reduce/reduce conflict in state 33 resolved using rule (LISTA_COM -> COMANDO SEMICOLON)
+WARNING: rejected rule (empty -> <empty>) in state 33
+WARNING: reduce/reduce conflict in state 59 resolved using rule (LISTA_CONST -> CONSTANTE SEMICOLON)
+WARNING: rejected rule (empty -> <empty>) in state 59
+WARNING: reduce/reduce conflict in state 66 resolved using rule (NOME -> ID)
+WARNING: rejected rule (empty -> <empty>) in state 66
+WARNING: reduce/reduce conflict in state 67 resolved using rule (COMANDO -> WHILE EXP_LOGICA BLOCO)
+WARNING: rejected rule (COMANDO -> BLOCO) in state 67
+WARNING: reduce/reduce conflict in state 96 resolved using rule (LISTA_TIPOS -> TIPO SEMICOLON)
+WARNING: rejected rule (empty -> <empty>) in state 96
+WARNING: reduce/reduce conflict in state 110 resolved using rule (COMANDO -> BLOCO)
+WARNING: rejected rule (empty -> <empty>) in state 110
+WARNING: reduce/reduce conflict in state 118 resolved using rule (LISTA_VAR -> VARIAVEL SEMICOLON)
+WARNING: rejected rule (empty -> <empty>) in state 118
+WARNING: reduce/reduce conflict in state 145 resolved using rule (COMANDO -> BLOCO)
+WARNING: rejected rule (ELSE_OPT -> ELSE BLOCO) in state 145
+WARNING: reduce/reduce conflict in state 167 resolved using rule (BLOCO_FUNCAO -> BLOCO)
+WARNING: rejected rule (COMANDO -> BLOCO) in state 167
+WARNING: reduce/reduce conflict in state 170 resolved using rule (BLOCO_FUNCAO -> DEF_VAR BLOCO)
+WARNING: rejected rule (COMANDO -> BLOCO) in state 170
+WARNING: Rule (ELSE_OPT -> ELSE BLOCO) is never reduced
