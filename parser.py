@@ -1,12 +1,5 @@
-"""
-Analisador Sintático para a linguagem SimplePascal
-Implementado usando PLY (Python Lex-Yacc)
-"""
-
 import ply.yacc as yacc
 from lexer import tokens, lexer
-
-# Regras da gramática principal
 
 
 def p_programa(p):
@@ -344,7 +337,6 @@ parser = yacc.yacc()
 
 
 def parse_file(filename):
-    """Analisa um arquivo fonte SimplePascal"""
     try:
         with open(filename, "r", encoding="utf-8") as f:
             data = f.read()
@@ -352,10 +344,8 @@ def parse_file(filename):
         print(f"Analisando arquivo: {filename}")
         print("=" * 60)
 
-        # Reseta o lexer
         lexer.lineno = 1
 
-        # Faz o parsing
         result = parser.parse(data, lexer=lexer)
 
         print("=" * 60)
