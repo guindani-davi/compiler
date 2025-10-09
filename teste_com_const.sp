@@ -1,7 +1,5 @@
 program exemplo;
 
-// Este é um comentário de linha
-
 const
     TAM := 10;
     PI := 3.14159;
@@ -28,25 +26,5 @@ begin
 end
 
 begin
-    { Comentário de bloco 
-      em múltiplas linhas }
-    
-    x := 5;
-    y := 10;
-    z := soma(x, y);
-    
-    write("Digite um numero: ");
-    read(x);
-    
-    if x > 0 then
-        write("Positivo")
-    else
-        write("Negativo ou zero");
-    
-    (* Outro tipo de comentário *)
-    while x <> 0 begin
-        x := x - 1;
-        write(x)
-    end
-    
+    x := 10
 end
