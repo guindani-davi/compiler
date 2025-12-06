@@ -12,6 +12,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 from lexer import lexer, print_tokens
 from parser import parse_file
+from semantic import analisar_semantica
 
 
 def analisar_arquivo(caminho_arquivo, modo="completo"):
@@ -20,7 +21,8 @@ def analisar_arquivo(caminho_arquivo, modo="completo"):
 
     Args:
         caminho_arquivo: Caminho para o arquivo .sp
-        modo: 'lexico' para análise léxica, 'sintatico' para sintática, 'completo' para ambas
+        modo: 'lexico' para análise léxica, 'sintatico' para sintática,
+              'semantico' para semântica, 'completo' para todas
     """
     # Verifica se o arquivo existe
     if not os.path.exists(caminho_arquivo):
@@ -40,6 +42,7 @@ def analisar_arquivo(caminho_arquivo, modo="completo"):
         return False
 
     sucesso = True
+    ast = None
 
     # Análise Léxica
     if modo in ["lexico", "completo"]:
@@ -57,9 +60,34 @@ def analisar_arquivo(caminho_arquivo, modo="completo"):
         print()
 
     # Análise Sintática
-    if modo in ["sintatico", "completo"]:
-        resultado = parse_file(caminho_arquivo)
-        sucesso = resultado is not None
+    if modo in ["sintatico", "semantico", "completo"]:
+        ast = parse_file(caminho_arquivo)
+        sucesso = ast is not None
+
+        if not sucesso:
+            print(
+                "\n✗ Análise sintática falhou. Não é possível prosseguir para análise semântica."
+            )
+            return False
+
+    # Análise Semântica
+    if modo in ["semantico", "completo"] and ast:
+        print("\n" + "=" * 70)
+        print(f"ANÁLISE SEMÂNTICA: {caminho_arquivo}")
+        print("=" * 70)
+        print()
+
+        sucesso_semantico, analisador = analisar_semantica(ast, verbose=True)
+        sucesso = sucesso and sucesso_semantico
+
+        print()
+        print("=" * 70)
+        if sucesso_semantico:
+            print("✓ Análise semântica concluída com sucesso!")
+        else:
+            print("✗ Análise semântica falhou!")
+        print("=" * 70)
+        print()
 
     return sucesso
 
@@ -78,7 +106,8 @@ def main():
         print("Opções:")
         print("  -l, --lexico     Apenas análise léxica")
         print("  -s, --sintatico  Apenas análise sintática")
-        print("  -c, --completo   Análise léxica e sintática (padrão)")
+        print("  -sem, --semantico Análise sintática e semântica")
+        print("  -c, --completo   Análise léxica, sintática e semântica (padrão)")
         print()
         print("Exemplos disponíveis:")
         examples_dir = Path("examples")
@@ -93,6 +122,8 @@ def main():
             modo = "lexico"
         elif arg in ["-s", "--sintatico"]:
             modo = "sintatico"
+        elif arg in ["-sem", "--semantico"]:
+            modo = "semantico"
         elif arg in ["-c", "--completo"]:
             modo = "completo"
         elif not arg.startswith("-"):

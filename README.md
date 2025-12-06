@@ -49,23 +49,24 @@ python main.py [opções] <arquivo.sp>
 
 **Opções:**
 - `-l, --lexico`: Apenas análise léxica
-- `-s, --sintatico`: Apenas análise sintática  
-- `-c, --completo`: Análise léxica e sintática (padrão)
+- `-s, --sintatico`: Apenas análise sintática
+- `-sem, --semantico`: Análise sintática e semântica
+- `-c, --completo`: Análise completa (léxica + sintática + semântica)
 
 ### Exemplos:
 
 ```bash
-# Análise completa (léxica + sintática)
-python main.py examples/teste_simples.sp
+# Análise completa (léxica + sintática + semântica)
+uv run main.py examples/teste_simples.sp
 
 # Apenas análise léxica
-python main.py -l examples/teste_simples.sp
+uv run main.py -l examples/teste_simples.sp
 
 # Apenas análise sintática
-python main.py -s examples/exemplo_circulo.sp
+uv run main.py -s examples/exemplo_circulo.sp
 
-# Exemplo completo
-python main.py examples/exemplo_circulo.sp
+# Análise semântica (sintática + semântica)
+uv run main.py -sem examples/teste_simples.sp
 ```
 
 ## Analisador Léxico
@@ -167,11 +168,86 @@ end
   - Expressões matemáticas e lógicas
   - Acesso a campos de records e elementos de arrays
 
+## Analisador Semântico
+
+O analisador semântico valida regras semânticas percorrendo a AST gerada pelo parser, utilizando uma **Tabela de Símbolos** para armazenar informações sobre identificadores.
+
+### Características
+
+- **Tabela de Símbolos**: Estrutura com suporte a múltiplos escopos (global e local)
+- **Validações implementadas**:
+  - Declaração de identificadores antes do uso
+  - Verificação de redeclaração no mesmo escopo
+  - Compatibilidade de tipos em atribuições e expressões
+  - Validação de quantidade e tipos de argumentos em chamadas de função
+  - Verificação de tipos em condições (if, while)
+  - Conversões implícitas (integer → real)
+
+### Regras Semânticas
+
+**Declarações:**
+- Identificadores devem ser declarados antes de serem usados
+- Não pode haver redeclaração no mesmo escopo
+- Escopos locais têm precedência sobre globais
+
+**Tipos:**
+- Atribuições devem respeitar compatibilidade de tipos
+- Operações aritméticas requerem tipos numéricos (integer/real)
+- Condições devem ser booleanas
+- Conversão implícita: integer → real
+
+**Funções:**
+- Quantidade de argumentos deve corresponder aos parâmetros
+- Tipos dos argumentos devem ser compatíveis
+- Apenas variáveis podem aparecer no lado esquerdo de atribuições
+
+### Exemplos de Uso
+
+```bash
+# Análise semântica apenas
+uv run main.py -sem examples/teste_simples.sp
+
+# Análise completa (léxica + sintática + semântica)
+uv run main.py -c examples/teste_simples.sp
+```
+
+### Exemplos de Erros Detectados
+
+**Variável não declarada:**
+```pascal
+program teste;
+begin
+    x := 10;  { Erro: x não declarada }
+end
+```
+
+**Tipos incompatíveis:**
+```pascal
+program teste;
+var
+    x : integer;
+    y : real;
+begin
+    x := y;  { Erro: não pode atribuir real a integer }
+end
+```
+
+**Quantidade de argumentos incorreta:**
+```pascal
+function soma(a: integer; b: integer): integer
+begin
+    soma := a + b
+end;
+begin
+    write(soma(10));  { Erro: faltam argumentos }
+end
+```
+
 ## Próximos Passos
 
 - [x] Implementar analisador léxico
 - [x] Implementar analisador sintático
-- [ ] Implementar analisador semântico
+- [x] Implementar analisador semântico
 - [ ] Implementar geração de código intermediário
 - [ ] Implementar otimizações
 - [ ] Implementar geração de código de máquina
