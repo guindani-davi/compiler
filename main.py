@@ -1,5 +1,5 @@
 """
-Script principal para executar o analisador léxico
+Script principal para executar análises léxica e sintática
 Processa arquivos .sp (Pascal Simplificado)
 """
 
@@ -11,62 +11,98 @@ from pathlib import Path
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 
 from lexer import lexer, print_tokens
+from parser import parse_file
 
 
-def analisar_arquivo(caminho_arquivo):
+def analisar_arquivo(caminho_arquivo, modo="completo"):
     """
-    Analisa um arquivo .sp e imprime os tokens encontrados
+    Analisa um arquivo .sp
+
+    Args:
+        caminho_arquivo: Caminho para o arquivo .sp
+        modo: 'lexico' para análise léxica, 'sintatico' para sintática, 'completo' para ambas
     """
     # Verifica se o arquivo existe
     if not os.path.exists(caminho_arquivo):
-        print(f"Erro: Arquivo '{caminho_arquivo}' não encontrado.")
+        print(f"✗ Erro: Arquivo '{caminho_arquivo}' não encontrado.")
         return False
 
     # Verifica a extensão do arquivo
     if not caminho_arquivo.endswith(".sp"):
-        print(f"Aviso: O arquivo '{caminho_arquivo}' não possui extensão .sp")
+        print(f"⚠ Aviso: O arquivo '{caminho_arquivo}' não possui extensão .sp")
 
     # Lê o conteúdo do arquivo
     try:
         with open(caminho_arquivo, "r", encoding="utf-8") as arquivo:
             codigo = arquivo.read()
     except Exception as e:
-        print(f"Erro ao ler o arquivo: {e}")
+        print(f"✗ Erro ao ler o arquivo: {e}")
         return False
 
-    # Imprime informações do arquivo
-    print("=" * 70)
-    print(f"Análise Léxica do arquivo: {caminho_arquivo}")
-    print("=" * 70)
-    print()
+    sucesso = True
 
-    # Executa a análise léxica
-    print_tokens(codigo)
+    # Análise Léxica
+    if modo in ["lexico", "completo"]:
+        print("=" * 70)
+        print(f"ANÁLISE LÉXICA: {caminho_arquivo}")
+        print("=" * 70)
+        print()
 
-    print()
-    print("=" * 70)
-    print("Análise concluída!")
-    print("=" * 70)
+        print_tokens(codigo)
 
-    return True
+        print()
+        print("=" * 70)
+        print("Análise léxica concluída!")
+        print("=" * 70)
+        print()
+
+    # Análise Sintática
+    if modo in ["sintatico", "completo"]:
+        resultado = parse_file(caminho_arquivo)
+        sucesso = resultado is not None
+
+    return sucesso
 
 
 def main():
     """
     Função principal
     """
+    # Parse de argumentos
+    modo = "completo"
+    arquivo = None
+
     if len(sys.argv) < 2:
-        print("Uso: python main.py <arquivo.sp>")
+        print("Uso: python main.py [opções] <arquivo.sp>")
+        print()
+        print("Opções:")
+        print("  -l, --lexico     Apenas análise léxica")
+        print("  -s, --sintatico  Apenas análise sintática")
+        print("  -c, --completo   Análise léxica e sintática (padrão)")
         print()
         print("Exemplos disponíveis:")
         examples_dir = Path("examples")
         if examples_dir.exists():
-            for arquivo in examples_dir.glob("*.sp"):
-                print(f"  - {arquivo}")
+            for arq in sorted(examples_dir.glob("*.sp")):
+                print(f"  - {arq}")
         sys.exit(1)
 
-    arquivo = sys.argv[1]
-    analisar_arquivo(arquivo)
+    # Processa argumentos
+    for arg in sys.argv[1:]:
+        if arg in ["-l", "--lexico"]:
+            modo = "lexico"
+        elif arg in ["-s", "--sintatico"]:
+            modo = "sintatico"
+        elif arg in ["-c", "--completo"]:
+            modo = "completo"
+        elif not arg.startswith("-"):
+            arquivo = arg
+
+    if not arquivo:
+        print("✗ Erro: Nenhum arquivo especificado")
+        sys.exit(1)
+
+    analisar_arquivo(arquivo, modo)
 
 
 if __name__ == "__main__":

@@ -15,8 +15,8 @@ begin
     then
     begin
         write("C e maior que 25");
-    end
+    end;
     
     resultado := 3.14 * 2.0;
-    write(resultado);
+    write(resultado)
 end

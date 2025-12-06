@@ -42,8 +42,8 @@ begin
     while contador < 10
     begin
         valores[contador] := contador * 2;
-        contador := contador + 1;
-    end
+        contador := contador + 1
+    end;
     
     { Exemplo de condicional }
     if area > 100

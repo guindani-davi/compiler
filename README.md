@@ -7,14 +7,19 @@ Compilador para uma versão simplificada da linguagem Pascal, desenvolvido como 
 ```
 compiler/
 ├── src/
-│   └── lexer.py          # Analisador léxico (implementado com PLY)
+│   ├── lexer.py          # Analisador léxico (implementado com PLY)
+│   └── parser.py         # Analisador sintático (implementado com PLY)
 ├── examples/
-│   ├── teste_simples.sp  # Exemplo simples
-│   └── exemplo_circulo.sp # Exemplo completo com funções
-├── slides/               # Slides do professor
-├── gramatica.md          # Gramática sem ambiguidades
-├── main.py              # Script principal
-└── README.md            # Este arquivo
+│   ├── teste_simples.sp     # Exemplo simples
+│   ├── exemplo_circulo.sp   # Exemplo completo com funções
+│   ├── erro_pontovirgula.sp # Exemplo com erros de ponto-e-vírgula
+│   ├── erro_estrutura.sp    # Exemplo com erros de estrutura
+│   └── erro_if.sp           # Exemplo com erros em if
+├── slides/                  # Slides do professor
+├── gramatica.md             # Gramática sem ambiguidades
+├── first_follow.md          # Conjuntos First e Follow
+├── main.py                  # Script principal
+└── README.md                # Este arquivo
 ```
 
 ## Instalação
@@ -39,14 +44,25 @@ pip install ply
 ### Analisar um arquivo .sp
 
 ```bash
-python main.py <arquivo.sp>
+python main.py [opções] <arquivo.sp>
 ```
+
+**Opções:**
+- `-l, --lexico`: Apenas análise léxica
+- `-s, --sintatico`: Apenas análise sintática  
+- `-c, --completo`: Análise léxica e sintática (padrão)
 
 ### Exemplos:
 
 ```bash
-# Exemplo simples
+# Análise completa (léxica + sintática)
 python main.py examples/teste_simples.sp
+
+# Apenas análise léxica
+python main.py -l examples/teste_simples.sp
+
+# Apenas análise sintática
+python main.py -s examples/exemplo_circulo.sp
 
 # Exemplo completo
 python main.py examples/exemplo_circulo.sp
@@ -84,6 +100,43 @@ O analisador léxico foi implementado usando **PLY (Python Lex-Yacc)** e reconhe
 ### Comentários
 - Comentários são delimitados por `{ }` e são ignorados pelo analisador
 
+## Analisador Sintático
+
+O analisador sintático foi implementado usando **PLY (Python Lex-Yacc) - módulo yacc** e realiza análise sintática LALR.
+
+### Características
+
+- **Tipo**: Parser LALR(1) gerado automaticamente pelo PLY
+- **Gramática**: Baseada na gramática LL(1) do Pascal Simplificado
+- **Precedência**: Operadores têm precedência definida (*, / > +, - > comparações)
+- **Tratamento de erros**: Modo pânico com mensagens descritivas
+- **Saída**: Árvore sintática abstrata (AST) em formato de tuplas Python
+
+### Estruturas Sintáticas Suportadas
+
+- **Declarações**: Constantes, tipos customizados, variáveis
+- **Funções**: Com parâmetros e variáveis locais
+- **Comandos**:
+  - Atribuição simples e com acesso a arrays/records
+  - Laços `while`
+  - Condicionais `if-then-else`
+  - Entrada/saída `read` e `write`
+- **Expressões**:
+  - Aritméticas com precedência correta
+  - Comparações (relacionais)
+  - Chamadas de função
+  - Acesso a arrays e campos de records
+
+### Detecção de Erros
+
+O analisador sintático detecta e reporta:
+- Tokens inesperados
+- Ausência de tokens obrigatórios (`;`, `end`, etc.)
+- Estruturas sintáticas incorretas
+- Fim de arquivo inesperado
+
+Após encontrar um erro, o parser tenta continuar a análise (modo pânico) para detectar múltiplos erros em uma única execução.
+
 ## Formato dos Arquivos .sp
 
 Os programas em Pascal Simplificado devem ter a extensão `.sp` e seguir a gramática definida em `gramatica.md`.
@@ -116,7 +169,8 @@ end
 
 ## Próximos Passos
 
-- [ ] Implementar analisador sintático
+- [x] Implementar analisador léxico
+- [x] Implementar analisador sintático
 - [ ] Implementar analisador semântico
 - [ ] Implementar geração de código intermediário
 - [ ] Implementar otimizações
