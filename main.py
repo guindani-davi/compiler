@@ -13,6 +13,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "src"))
 from lexer import lexer, print_tokens
 from parser import parse_file
 from semantic import analisar_semantica
+from code_generator import gerar_codigo_intermediario
+from code_generator import gerar_codigo_intermediario
 
 
 def analisar_arquivo(caminho_arquivo, modo="completo"):
@@ -22,7 +24,8 @@ def analisar_arquivo(caminho_arquivo, modo="completo"):
     Args:
         caminho_arquivo: Caminho para o arquivo .sp
         modo: 'lexico' para análise léxica, 'sintatico' para sintática,
-              'semantico' para semântica, 'completo' para todas
+              'semantico' para semântica, 'codinter' para geração de código,
+              'completo' para todas
     """
     # Verifica se o arquivo existe
     if not os.path.exists(caminho_arquivo):
@@ -60,18 +63,16 @@ def analisar_arquivo(caminho_arquivo, modo="completo"):
         print()
 
     # Análise Sintática
-    if modo in ["sintatico", "semantico", "completo"]:
+    if modo in ["sintatico", "semantico", "codinter", "completo"]:
         ast = parse_file(caminho_arquivo)
         sucesso = ast is not None
 
         if not sucesso:
-            print(
-                "\n✗ Análise sintática falhou. Não é possível prosseguir para análise semântica."
-            )
+            print("\n✗ Análise sintática falhou. Não é possível prosseguir.")
             return False
 
     # Análise Semântica
-    if modo in ["semantico", "completo"] and ast:
+    if modo in ["semantico", "codinter", "completo"] and ast:
         print("\n" + "=" * 70)
         print(f"ANÁLISE SEMÂNTICA: {caminho_arquivo}")
         print("=" * 70)
@@ -89,6 +90,21 @@ def analisar_arquivo(caminho_arquivo, modo="completo"):
         print("=" * 70)
         print()
 
+        if not sucesso_semantico and modo in ["codinter", "completo"]:
+            print(
+                "\n✗ Análise semântica falhou. Não é possível gerar código intermediário."
+            )
+            return False
+
+    # Geração de Código Intermediário
+    if modo in ["codinter", "completo"] and ast:
+        instrucoes, gerador = gerar_codigo_intermediario(ast, verbose=True)
+
+        if instrucoes:
+            print("\n✓ Código intermediário gerado com sucesso!")
+        else:
+            print("\n⚠ Nenhum código intermediário foi gerado")
+
     return sucesso
 
 
@@ -104,10 +120,13 @@ def main():
         print("Uso: python main.py [opções] <arquivo.sp>")
         print()
         print("Opções:")
-        print("  -l, --lexico     Apenas análise léxica")
-        print("  -s, --sintatico  Apenas análise sintática")
+        print("  -l, --lexico      Apenas análise léxica")
+        print("  -s, --sintatico   Apenas análise sintática")
         print("  -sem, --semantico Análise sintática e semântica")
-        print("  -c, --completo   Análise léxica, sintática e semântica (padrão)")
+        print(
+            "  -ci, --codinter   Sintática, semântica e geração de código intermediário"
+        )
+        print("  -c, --completo    Análise completa (padrão)")
         print()
         print("Exemplos disponíveis:")
         examples_dir = Path("examples")
@@ -124,6 +143,8 @@ def main():
             modo = "sintatico"
         elif arg in ["-sem", "--semantico"]:
             modo = "semantico"
+        elif arg in ["-ci", "--codinter"]:
+            modo = "codinter"
         elif arg in ["-c", "--completo"]:
             modo = "completo"
         elif not arg.startswith("-"):

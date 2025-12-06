@@ -51,12 +51,13 @@ python main.py [opções] <arquivo.sp>
 - `-l, --lexico`: Apenas análise léxica
 - `-s, --sintatico`: Apenas análise sintática
 - `-sem, --semantico`: Análise sintática e semântica
-- `-c, --completo`: Análise completa (léxica + sintática + semântica)
+- `-ci, --codinter`: Sintática, semântica e geração de código intermediário
+- `-c, --completo`: Análise completa (todas as fases)
 
 ### Exemplos:
 
 ```bash
-# Análise completa (léxica + sintática + semântica)
+# Análise completa
 uv run main.py examples/teste_simples.sp
 
 # Apenas análise léxica
@@ -67,6 +68,9 @@ uv run main.py -s examples/exemplo_circulo.sp
 
 # Análise semântica (sintática + semântica)
 uv run main.py -sem examples/teste_simples.sp
+
+# Geração de código intermediário
+uv run main.py -ci examples/teste_while.sp
 ```
 
 ## Analisador Léxico
@@ -243,12 +247,71 @@ begin
 end
 ```
 
+## Geração de Código Intermediário
+
+O gerador de código intermediário transforma a AST em código de **3 endereços**, uma representação sequencial que simula uma máquina abstrata.
+
+### Características
+
+- **Formato**: Cada instrução possui 1 operador e no máximo 3 endereços
+- **Variáveis temporárias**: `TEMP1`, `TEMP2`, etc. para resultados intermediários
+- **Labels**: `LABEL1`, `LABEL2`, etc. para controle de fluxo
+- **Independente de máquina**: Facilita portabilidade e otimizações futuras
+
+### Conjunto de Instruções
+
+| Operação | Descrição | Exemplo |
+|----------|-----------|---------|
+| MOV | Atribuição | `MOV a, 10` |
+| ADD/SUB/MUL/DIV | Operações aritméticas | `ADD TEMP1, a, b` |
+| GTR/LES/EQL/NEQ | Comparações | `GTR TEMP2, a, b` |
+| JMP | Salto incondicional | `JMP LABEL1` |
+| JMZ | Salto se zero (falso) | `JMZ LABEL2, TEMP1` |
+| LBL | Definição de label | `LBL LABEL1` |
+| CALL/RET | Chamada e retorno de função | `CALL soma` |
+| PUSH/POP | Empilha/desempilha parâmetros | `PUSH 10` |
+| READ/WRITE | Entrada e saída | `WRITE resultado` |
+
+### Exemplo de Código Gerado
+
+**Código fonte:**
+```pascal
+while a > b
+begin
+    write(a);
+    a := a - 1
+end
+```
+
+**Código intermediário:**
+```
+   1: LBL LABEL1
+   2: GTR TEMP1, a, b
+   3: JMZ LABEL2, TEMP1
+   4: WRITE a
+   5: MOV TEMP2, 1
+   6: SUB TEMP3, a, TEMP2
+   7: MOV a, TEMP3
+   8: JMP LABEL1
+   9: LBL LABEL2
+```
+
+### Uso
+
+```bash
+# Geração de código intermediário
+uv run main.py -ci examples/teste_simples.sp
+
+# Análise completa incluindo código intermediário
+uv run main.py -c examples/teste_while.sp
+```
+
 ## Próximos Passos
 
 - [x] Implementar analisador léxico
 - [x] Implementar analisador sintático
 - [x] Implementar analisador semântico
-- [ ] Implementar geração de código intermediário
+- [x] Implementar geração de código intermediário
 - [ ] Implementar otimizações
 - [ ] Implementar geração de código de máquina
 
