@@ -14,7 +14,7 @@ from lexer import lexer, print_tokens
 from parser import parse_file
 from semantic import analisar_semantica
 from code_generator import gerar_codigo_intermediario
-from code_generator import gerar_codigo_intermediario
+from optimizer import otimizar_codigo
 
 
 def analisar_arquivo(caminho_arquivo, modo="completo"):
@@ -24,8 +24,8 @@ def analisar_arquivo(caminho_arquivo, modo="completo"):
     Args:
         caminho_arquivo: Caminho para o arquivo .sp
         modo: 'lexico' para análise léxica, 'sintatico' para sintática,
-              'semantico' para semântica, 'codinter' para geração de código,
-              'completo' para todas
+              'semantico' para semântica, 'codinter' para código SEM otimização,
+              'otimizado' para código COM otimização, 'completo' para todas
     """
     # Verifica se o arquivo existe
     if not os.path.exists(caminho_arquivo):
@@ -63,7 +63,7 @@ def analisar_arquivo(caminho_arquivo, modo="completo"):
         print()
 
     # Análise Sintática
-    if modo in ["sintatico", "semantico", "codinter", "completo"]:
+    if modo in ["sintatico", "semantico", "codinter", "otimizado", "completo"]:
         ast = parse_file(caminho_arquivo)
         sucesso = ast is not None
 
@@ -72,7 +72,7 @@ def analisar_arquivo(caminho_arquivo, modo="completo"):
             return False
 
     # Análise Semântica
-    if modo in ["semantico", "codinter", "completo"] and ast:
+    if modo in ["semantico", "codinter", "otimizado", "completo"] and ast:
         print("\n" + "=" * 70)
         print(f"ANÁLISE SEMÂNTICA: {caminho_arquivo}")
         print("=" * 70)
@@ -90,20 +90,57 @@ def analisar_arquivo(caminho_arquivo, modo="completo"):
         print("=" * 70)
         print()
 
-        if not sucesso_semantico and modo in ["codinter", "completo"]:
+        if not sucesso_semantico and modo in ["codinter", "otimizado", "completo"]:
             print(
                 "\n✗ Análise semântica falhou. Não é possível gerar código intermediário."
             )
             return False
 
-    # Geração de Código Intermediário
-    if modo in ["codinter", "completo"] and ast:
+    # Geração de Código Intermediário (SEM otimização)
+    if modo in ["codinter"] and ast:
         instrucoes, gerador = gerar_codigo_intermediario(ast, verbose=True)
 
         if instrucoes:
-            print("\n✓ Código intermediário gerado com sucesso!")
+            print("\n✓ Código intermediário gerado com sucesso (SEM otimização)!")
         else:
             print("\n⚠ Nenhum código intermediário foi gerado")
+
+    # Geração de Código Intermediário COM Otimização
+    if modo in ["otimizado", "completo"] and ast:
+        print("\n" + "=" * 70)
+        print("GERAÇÃO DE CÓDIGO INTERMEDIÁRIO")
+        print("=" * 70)
+
+        # Gerar código original
+        instrucoes, gerador = gerar_codigo_intermediario(ast, verbose=False)
+
+        if not instrucoes:
+            print("\n⚠ Nenhum código intermediário foi gerado")
+            return sucesso
+
+        # Mostrar código sem otimização
+        print("\nCÓDIGO SEM OTIMIZAÇÃO:")
+        print("-" * 70)
+        for i, instr in enumerate(instrucoes, 1):
+            print(f"{i:4}: {instr}")
+
+        print("\n" + "=" * 70)
+        print("OTIMIZANDO...")
+        print("=" * 70)
+
+        otimizado, otimizador = otimizar_codigo(
+            instrucoes, verbose=True, comparar=False
+        )
+
+        # Mostrar código com otimização
+        print("\nCÓDIGO COM OTIMIZAÇÃO:")
+        print("-" * 70)
+        for i, instr in enumerate(otimizado, 1):
+            print(f"{i:4}: {instr}")
+        print()
+
+        if otimizado:
+            print("\n✓ Código otimizado gerado com sucesso!")
 
     return sucesso
 
@@ -123,9 +160,8 @@ def main():
         print("  -l, --lexico      Apenas análise léxica")
         print("  -s, --sintatico   Apenas análise sintática")
         print("  -sem, --semantico Análise sintática e semântica")
-        print(
-            "  -ci, --codinter   Sintática, semântica e geração de código intermediário"
-        )
+        print("  -ci, --codinter   Código intermediário SEM otimização")
+        print("  -opt, --otimizado Código intermediário COM otimização")
         print("  -c, --completo    Análise completa (padrão)")
         print()
         print("Exemplos disponíveis:")
@@ -145,6 +181,8 @@ def main():
             modo = "semantico"
         elif arg in ["-ci", "--codinter"]:
             modo = "codinter"
+        elif arg in ["-opt", "--otimizado"]:
+            modo = "otimizado"
         elif arg in ["-c", "--completo"]:
             modo = "completo"
         elif not arg.startswith("-"):

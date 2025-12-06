@@ -8,18 +8,29 @@ Compilador para uma versão simplificada da linguagem Pascal, desenvolvido como 
 compiler/
 ├── src/
 │   ├── lexer.py          # Analisador léxico (implementado com PLY)
-│   └── parser.py         # Analisador sintático (implementado com PLY)
+│   ├── parser.py         # Analisador sintático (implementado com PLY)
+│   ├── symbol_table.py   # Tabela de símbolos
+│   ├── semantic.py       # Analisador semântico
+│   ├── code_generator.py # Gerador de código intermediário
+│   └── optimizer.py      # Otimizador de código
 ├── examples/
-│   ├── teste_simples.sp     # Exemplo simples
-│   ├── exemplo_circulo.sp   # Exemplo completo com funções
-│   ├── erro_pontovirgula.sp # Exemplo com erros de ponto-e-vírgula
-│   ├── erro_estrutura.sp    # Exemplo com erros de estrutura
-│   └── erro_if.sp           # Exemplo com erros em if
-├── slides/                  # Slides do professor
-├── gramatica.md             # Gramática sem ambiguidades
-├── first_follow.md          # Conjuntos First e Follow
-├── main.py                  # Script principal
-└── README.md                # Este arquivo
+│   ├── teste_simples.sp       # Exemplo simples
+│   ├── teste_while.sp         # Exemplo com while
+│   ├── teste_funcao.sp        # Exemplo com função
+│   ├── teste_codigo_morto.sp  # Exemplo com código morto
+│   ├── exemplo_circulo.sp     # Exemplo completo com funções
+│   ├── erro_pontovirgula.sp   # Exemplo com erros de ponto-e-vírgula
+│   ├── erro_estrutura.sp      # Exemplo com erros de estrutura
+│   ├── erro_if.sp             # Exemplo com erros em if
+│   └── erro_sem_*.sp          # Exemplos com erros semânticos
+├── slides/                    # Slides do professor
+├── gramatica.md               # Gramática sem ambiguidades
+├── first_follow.md            # Conjuntos First e Follow
+├── semantica.md               # Documentação análise semântica
+├── codigo_intermediario.md    # Documentação geração de código
+├── otimizacao.md              # Documentação otimização
+├── main.py                    # Script principal
+└── README.md                  # Este arquivo
 ```
 
 ## Instalação
@@ -51,7 +62,8 @@ python main.py [opções] <arquivo.sp>
 - `-l, --lexico`: Apenas análise léxica
 - `-s, --sintatico`: Apenas análise sintática
 - `-sem, --semantico`: Análise sintática e semântica
-- `-ci, --codinter`: Sintática, semântica e geração de código intermediário
+- `-ci, --codinter`: Código intermediário **SEM otimização**
+- `-opt, --otimizado`: Código intermediário **COM otimização**
 - `-c, --completo`: Análise completa (todas as fases)
 
 ### Exemplos:
@@ -299,11 +311,132 @@ end
 ### Uso
 
 ```bash
-# Geração de código intermediário
+# Geração de código intermediário SEM otimização
 uv run main.py -ci examples/teste_simples.sp
+
+# Geração de código intermediário COM otimização
+uv run main.py -opt examples/teste_codigo_morto.sp
 
 # Análise completa incluindo código intermediário
 uv run main.py -c examples/teste_while.sp
+```
+
+## Otimização de Código
+
+O otimizador aplica técnicas de otimização ao código intermediário gerado, melhorando a eficiência do programa final.
+
+### Técnica Implementada: Eliminação de Código Morto
+
+A eliminação de código morto remove instruções cujos resultados nunca são utilizados, reduzindo o tamanho do código e potencialmente melhorando o desempenho.
+
+#### Como Funciona
+
+O otimizador executa 4 passes no código:
+
+1. **Identificar variáveis usadas**: Analisa todas as instruções para identificar quais variáveis são efetivamente usadas (lado direito de operações, condições, saídas)
+
+2. **Marcar instruções necessárias**: Marca instruções com efeitos colaterais (WRITE, READ, CALL, saltos) e instruções que definem variáveis usadas
+
+3. **Propagação de dependências**: Itera marcando instruções cujos resultados são necessários para instruções já marcadas
+
+4. **Remover código morto**: Mantém apenas as instruções marcadas como necessárias
+
+#### Preservação de Semântica
+
+O otimizador preserva:
+- ✅ Comandos de I/O (READ, WRITE)
+- ✅ Chamadas de função (CALL, RET)
+- ✅ Estruturas de controle (JMP, JMZ, LBL)
+- ✅ Operações de pilha (PUSH, POP)
+- ✅ Todas as dependências de dados
+
+### Exemplo de Otimização
+
+**Código fonte:**
+```pascal
+program teste_codigo_morto;
+var
+    x, y, z : integer;
+    resultado : integer;
+begin
+    x := 10;
+    y := 20;
+    z := 30;  { z não é usado depois }
+    
+    resultado := x + y;
+    
+    { Variável temporária nunca usada }
+    x := 15;
+    
+    { Outra operação cujo resultado não é usado }
+    y := 25 * 2;
+    
+    write(resultado)
+end
+```
+
+**Código intermediário SEM otimização (15 instruções):**
+```
+   1: MOV TEMP1 10
+   2: MOV x TEMP1
+   3: MOV TEMP2 20
+   4: MOV y TEMP2
+   5: MOV TEMP3 30
+   6: MOV z TEMP3          ← código morto (z nunca usado)
+   7: ADD TEMP4 x y
+   8: MOV resultado TEMP4
+   9: MOV TEMP5 15
+  10: MOV x TEMP5          ← código morto (x redefinido)
+  11: MOV TEMP6 25
+  12: MOV TEMP7 2
+  13: MUL TEMP8 TEMP6 TEMP7
+  14: MOV y TEMP8          ← código morto (y redefinido)
+  15: WRITE resultado
+```
+
+**Código intermediário COM otimização (14 instruções - 6.7% redução):**
+```
+   1: MOV TEMP1 10
+   2: MOV x TEMP1
+   3: MOV TEMP2 20
+   4: MOV y TEMP2
+   5: MOV TEMP3 30         ← MOV z removido
+   6: ADD TEMP4 x y
+   7: MOV resultado TEMP4
+   8: MOV TEMP5 15
+   9: MOV x TEMP5          ← MOV x removido
+  10: MOV TEMP6 25
+  11: MOV TEMP7 2
+  12: MUL TEMP8 TEMP6 TEMP7
+  13: MOV y TEMP8          ← MOV y removido
+  14: WRITE resultado
+```
+
+### Estatísticas de Otimização
+
+O otimizador reporta:
+- Número de instruções originais
+- Número de instruções após otimização
+- Quantidade de instruções removidas
+- Percentual de redução
+
+### Visualização
+
+A opção `-opt` mostra:
+1. Código intermediário SEM otimização
+2. Processo de otimização com estatísticas
+3. Código intermediário COM otimização
+
+Isso permite ao usuário (ou professor) avaliar tanto o código intermediário gerado quanto o efeito da otimização.
+
+### Uso
+
+```bash
+# Ver código SEM otimização
+uv run main.py -ci examples/teste_codigo_morto.sp
+
+# Ver código COM otimização (mostra antes e depois)
+uv run main.py -opt examples/teste_codigo_morto.sp
 ```
 
 ## Próximos Passos
@@ -312,7 +445,7 @@ uv run main.py -c examples/teste_while.sp
 - [x] Implementar analisador sintático
 - [x] Implementar analisador semântico
 - [x] Implementar geração de código intermediário
-- [ ] Implementar otimizações
+- [x] Implementar otimização (eliminação de código morto)
 - [ ] Implementar geração de código de máquina
 
 ## Testes
