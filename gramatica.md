@@ -1,117 +1,201 @@
-# Especificação do Compilador
+# Gramática Pascal Simplificado (Sem Ambiguidades)
 
-## Classificação de Tokens
+## Regras de Produção
 
-### 1. Palavras-reservadas
-`program`, `const`, `type`, `var`, `begin`, `end`, `function`, `of`, `record`, `array`, `integer`, `real`, `while`, `if`, `then`, `else`, `write`, `read`
+### Programa Principal
 
-### 2. Identificadores
-- Padrão: `[A-Za-z][A-Za-z0-9_]*`
-- Exemplos: `funcoes`, `TAM`, `aluno`
+```
+[PROGRAMA] → (program) [ID] (;) [CORPO]
 
-### 3. Números
-- **Inteiro**: `0|[1-9][0-9]*`
-- **Real**: `[0-9]+\.[0-9]+`
+[CORPO] → [DECLARACOES] (begin) [LISTA_COM] (end)
+        | (begin) [LISTA_COM] (end)
+```
 
-### 4. Strings
-- Padrão: `"([^"\n]|"")*"`
-- Exemplo: `"digite as notas do aluno"`
+### Declarações
 
-### 5. Operadores
-`:=`, `+`, `-`, `*`, `/`, `=`, `<>`, `<`, `<=`, `>`, `>=`
+```
+[DECLARACOES] → [DEF_CONST] [DEF_TIPOS] [DEF_VAR] [LISTA_FUNC]
+            | Є
+            
+[DEF_CONST] → (const) [LISTA_CONST]
+            | Є
 
-### 6. Delimitadores
-`(`, `)`, `[`, `]`, `;`, `:`, `,`, `.`
+[DEF_TIPOS] → (type) [LISTA_TIPOS]
+            | Є
 
-### 7. Comentários
-- `//` até fim da linha
-- `{ ... }`
-- `(* ... *)`
+[DEF_VAR] → (var) [LISTA_VAR]
+          | Є
+```
 
-## Gramática
-PROGRAMA ::= 'program' ID ';' CORPO
+### Constantes
 
-CORPO ::= DECLARACOES 'begin' LISTA_COM 'end' 
-        | 'begin' LISTA_COM 'end'
+```
+[LISTA_CONST] → [CONSTANTE] [LISTA_CONST']
 
-DECLARACOES ::= DEF_CONST DEF_TIPOS DEF_VAR LISTA_FUNC 
-              | ε
+[LISTA_CONST'] → [LISTA_CONST]
+               | Є
 
-DEF_CONST ::= 'const' LISTA_CONST 
-            | ε
+[CONSTANTE] → [ID] (:=) [CONST_VALOR] (;)
 
-LISTA_CONST ::= CONSTANTE (CONSTANTE)*
+[CONST_VALOR] → (") sequência alfanumérica (")
+              | [EXP_MAT]
+```
 
-CONSTANTE ::= ID ':=' CONST_VALOR ';'
+### Tipos
 
-CONST_VALOR ::= STR | EXP_MAT
+```
+[LISTA_TIPOS] → [TIPO] [LISTA_TIPOS']
 
-DEF_TIPOS ::= 'type' LISTA_TIPOS 
-            | ε
+[LISTA_TIPOS'] → (;) [LISTA_TIPOS]
+               | Є
 
-LISTA_TIPOS ::= TIPO (';' TIPO)*
+[TIPO] → [ID] (:=) [TIPO_DADO]
 
-TIPO ::= ID ':=' TIPO_DADO
+[TIPO_DADO] → (integer)
+            | (real)
+            | (array) ([) [NUMERO] (]) (of) [TIPO_DADO]
+            | (record) [LISTA_VAR] (end)
+            | [ID]
+```
 
-TIPO_DADO ::= 'integer' 
-            | 'real' 
-            | 'array' '[' NUM ']' 'of' TIPO_DADO 
-            | 'record' LISTA_VAR 'end' 
-            | ID
+### Variáveis
 
-DEF_VAR ::= 'var' LISTA_VAR 
-          | ε
+```
+[LISTA_VAR] → [VARIAVEL] [LISTA_VAR']
 
-LISTA_VAR ::= VARIAVEL (';' VARIAVEL)*
+[LISTA_VAR'] → (;) [LISTA_VAR]
+             | Є
 
-VARIAVEL ::= LISTA_ID ':' TIPO_DADO
+[VARIAVEL] → [LISTA_ID] (:) [TIPO_DADO]
 
-LISTA_ID ::= ID (',' ID)*
+[LISTA_ID] → [ID] [LISTA_ID']
 
-FUNCAO ::= 'function' ID '(' PARAM_FORM? ')' ':' TIPO_DADO BLOCO_FUNCAO
+[LISTA_ID'] → (,) [LISTA_ID]
+            | Є
+```
 
-PARAM_FORM ::= PARAM (',' PARAM)*
+### Funções
 
-PARAM ::= LISTA_ID ':' TIPO_DADO
+```
+[LISTA_FUNC] → [FUNCAO] [LISTA_FUNC]
+             | Є
 
-BLOCO_FUNCAO ::= DEF_VAR BLOCO 
-               | BLOCO
+[FUNCAO] → [NOME_FUNCAO] [BLOCO_FUNCAO]
 
-BLOCO ::= 'begin' LISTA_COM 'end' 
-        | COMANDO
+[NOME_FUNCAO] → (function) [ID] (() [LIST_VAR] ()) (:) [TIPO_DADO]
 
-LISTA_COM ::= COMANDO (';' COMANDO)*
+[BLOCO_FUNCAO] → [DEF_VAR] [BLOCO]
 
-COMANDO ::= NOME ':=' VALOR 
-          | 'while' EXP_LOGICA BLOCO 
-          | 'if' EXP_LOGICA 'then' BLOCO ELSE_OPT 
-          | 'write' '(' (EXP_MAT|STR) ')' 
-          | 'read' '(' NOME ')' 
-          | BLOCO
+[BLOCO] → (begin) [LISTA_COM] (end)
+```
 
-ELSE_OPT ::= 'else' BLOCO 
-           | ε
+### Comandos
 
-VALOR ::= EXP_MAT 
-        | ID LISTA_ARG?
+```
+[LISTA_COM] → [COMANDO] (;) [LISTA_COM]
+            | Є
 
-LISTA_ARG ::= '(' LISTA_EXP? ')'
+[COMANDO] → [ID] (:=) [VALOR]
+          | [NOME] (:=) [VALOR]
+          | (while) [EXP_LOGICA] [BLOCO]
+          | (if) [EXP_LOGICA] (then) [BLOCO] [ELSE]
+          | (write) [CONST_VALOR]
+          | (read) [ID]
 
-LISTA_EXP ::= EXP_MAT (',' EXP_MAT)*
+[ELSE] → (else) [BLOCO]
+       | Є
+```
 
-EXP_LOGICA ::= EXP_REL
+### Valores e Nomes
 
-EXP_REL ::= EXP_MAT (OP_REL EXP_MAT)?
+```
+[VALOR] → [ID] [VALOR']
+        | [NUMERO]
 
-OP_REL ::= '=' | '<>' | '<' | '<=' | '>' | '>='
+[VALOR'] → [LISTA_NOME]
+         | [EXP_MAT']
 
-EXP_MAT ::= TERMO (( '+' | '-' ) TERMO)*
+[NOME] → [ID] [NOME]
+       | [NUMERO]
 
-TERMO ::= FATOR (( '*' | '/' ) FATOR)*
+[LISTA_NOME] → (() [LISTA_NOME'] ())
 
-FATOR ::= PARAMETRO 
-        | '(' EXP_MAT ')'
+[LISTA_NOME'] → [ID] [NOME]
+              | [NUMERO]
+              | (,) [LISTA_NOME]
+              | Є
+```
 
-PARAMETRO ::= NOME | NUM
+### Expressões Lógicas
 
-NOME ::= ID ('.' ID | '[' EXP_MAT ']')*
+```
+[EXP_LOGICA] → [EXP_MAT] [EXP_LOGICA']
+
+[EXP_LOGICA'] → [OP_LOGICO] [EXP_LOGICA]
+              | Є
+
+[OP_LOGICO] → (>) | (<) | (=) | (!)
+```
+
+### Expressões Matemáticas
+
+```
+[EXP_MAT] → [ID] [NOME] [EXP_MAT']
+          | [NUMERO] [EXP_MAT']
+
+[EXP_MAT'] → [OP_MAT] [EXP_MAT]
+           | Є
+
+[OP_MAT] → (+) | (-) | (*) | (/)
+```
+
+### Acesso a Membros
+
+```
+[NOME] → (.) [ID] [NOME]
+       | ([) [ID] (]) [NOME]
+       | ([) [NUMERO] (]) [NOME]
+       | Є
+```
+
+## Tokens Léxicos
+
+```
+[ID] → Sequência alfanumérica iniciada por char (tratado no léxico)
+
+[NUMERO] → Sequência de dígitos com a ocorrência de no máximo um ponto (tratado no léxico)
+```
+
+## Palavras Reservadas
+
+- `program`
+- `begin`
+- `end`
+- `const`
+- `type`
+- `var`
+- `function`
+- `while`
+- `if`
+- `then`
+- `else`
+- `write`
+- `read`
+- `integer`
+- `real`
+- `array`
+- `of`
+- `record`
+
+## Símbolos Especiais
+
+- `;` (ponto e vírgula)
+- `:` (dois pontos)
+- `:=` (atribuição)
+- `,` (vírgula)
+- `.` (ponto)
+- `(` `)` (parênteses)
+- `[` `]` (colchetes)
+- `"` (aspas duplas)
+- `+` `-` `*` `/` (operadores matemáticos)
+- `>` `<` `=` `!` (operadores lógicos)
