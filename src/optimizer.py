@@ -63,7 +63,6 @@ class Optimizer:
             "CALL",
             "RET",
             "JMP",
-            "JMZ",
             "JNZ",
             "LBL",
             "PUSH",
@@ -80,7 +79,7 @@ class Optimizer:
             # Instruções que LEEM variáveis
             if op in preserve_ops:
                 # Preservar sempre, mas também marcar variáveis lidas
-                if op in {"WRITE", "JMZ", "JNZ", "PUSH"}:
+                if op in {"WRITE", "JNZ", "PUSH"}:
                     if instr.addr1 and self.is_variable(instr.addr1):
                         used_vars.add(instr.addr1)
 

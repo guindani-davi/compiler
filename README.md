@@ -278,7 +278,7 @@ O gerador de código intermediário transforma a AST em código de **3 endereço
 | ADD/SUB/MUL/DIV | Operações aritméticas | `ADD TEMP1, a, b` |
 | GTR/LES/EQL/NEQ | Comparações | `GTR TEMP2, a, b` |
 | JMP | Salto incondicional | `JMP LABEL1` |
-| JMZ | Salto se zero (falso) | `JMZ LABEL2, TEMP1` |
+| JNZ | Salto se não-zero (verdadeiro) | `JNZ LABEL2, TEMP1` |
 | LBL | Definição de label | `LBL LABEL1` |
 | CALL/RET | Chamada e retorno de função | `CALL soma` |
 | PUSH/POP | Empilha/desempilha parâmetros | `PUSH 10` |
@@ -299,13 +299,15 @@ end
 ```
    1: LBL LABEL1
    2: GTR TEMP1, a, b
-   3: JMZ LABEL2, TEMP1
-   4: WRITE a
-   5: MOV TEMP2, 1
-   6: SUB TEMP3, a, TEMP2
-   7: MOV a, TEMP3
-   8: JMP LABEL1
-   9: LBL LABEL2
+   3: JNZ LABEL3, TEMP1
+   4: JMP LABEL2
+   5: LBL LABEL3
+   6: WRITE a
+   7: MOV TEMP2, 1
+   8: SUB TEMP3, a, TEMP2
+   9: MOV a, TEMP3
+  10: JMP LABEL1
+  11: LBL LABEL2
 ```
 
 ### Uso
@@ -346,7 +348,7 @@ O otimizador executa 4 passes no código:
 O otimizador preserva:
 - ✅ Comandos de I/O (READ, WRITE)
 - ✅ Chamadas de função (CALL, RET)
-- ✅ Estruturas de controle (JMP, JMZ, LBL)
+- ✅ Estruturas de controle (JMP, JNZ, LBL)
 - ✅ Operações de pilha (PUSH, POP)
 - ✅ Todas as dependências de dados
 

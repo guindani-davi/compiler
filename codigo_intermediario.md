@@ -39,7 +39,6 @@ OP | Endereço 1 | Endereço 2 | Endereço 3
 | **EQL**  | resultado        | operando1          | operando2          | Igual (=) |
 | **NEQ**  | resultado        | operando1          | operando2          | Diferente (!) |
 | **JMP**  | label            | -                  | -                  | Salto incondicional |
-| **JMZ**  | label            | variável           | -                  | Salto se zero (falso) |
 | **JNZ**  | label            | variável           | -                  | Salto se não-zero (verdadeiro) |
 | **LBL**  | label            | -                  | -                  | Definição de label |
 | **CALL** | função           | -                  | -                  | Chamada de função |
@@ -136,7 +135,9 @@ end
 
 # Código intermediário
 GTR TEMP1, A, B      # Avalia condição
-JMZ LABEL1, TEMP1    # Salta se falso
+JNZ LABEL_THEN, TEMP1  # Salta se verdadeiro
+JMP LABEL1           # Condição falsa, pula o then
+LBL LABEL_THEN       # Início do then
 MOV C, A             # Bloco then
 LBL LABEL1           # Fim do if
 ```
@@ -155,11 +156,11 @@ end
 
 # Código intermediário
 GTR TEMP1, A, B       # Avalia condição
-JMZ LABEL_ELSE, TEMP1 # Salta para else se falso
+JNZ LABEL_THEN, TEMP1 # Salta para then se verdadeiro
+MOV C, B              # Bloco else (condição falsa)
+JMP LABEL_FIM         # Pula o then
+LBL LABEL_THEN        # Início do then
 MOV C, A              # Bloco then
-JMP LABEL_FIM         # Pula o else
-LBL LABEL_ELSE        # Início do else
-MOV C, B              # Bloco else
 LBL LABEL_FIM         # Fim do if
 ```
 
@@ -177,7 +178,9 @@ end
 # Código intermediário
 LBL LABEL_INI         # Início do while
 GTR TEMP1, A, B       # Avalia condição
-JMZ LABEL_FIM, TEMP1  # Salta se falso (sai do loop)
+JNZ LABEL_BLOCO, TEMP1  # Salta se verdadeiro (entra no loop)
+JMP LABEL_FIM         # Condição falsa, sai do loop
+LBL LABEL_BLOCO       # Início do bloco
 SUB TEMP2, A, 1       # Bloco do while
 MOV A, TEMP2          # Atribuição
 JMP LABEL_INI         # Volta para o início

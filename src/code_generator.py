@@ -162,6 +162,7 @@ class CodeGenerator:
 
         # Labels
         label_ini = self.novo_label()
+        label_bloco = self.novo_label()
         label_fim = self.novo_label()
 
         # LBL LABEL_INI
@@ -170,8 +171,14 @@ class CodeGenerator:
         # Avaliar condição
         temp_cond = self.gerar_expressao(condicao)
 
-        # JMZ LABEL_FIM, TEMP_COND
-        self.emitir("JMZ", label_fim, temp_cond)
+        # JNZ LABEL_BLOCO, TEMP_COND (salta se verdadeiro)
+        self.emitir("JNZ", label_bloco, temp_cond)
+
+        # JMP LABEL_FIM (se falso, sai do loop)
+        self.emitir("JMP", label_fim)
+
+        # LBL LABEL_BLOCO
+        self.emitir("LBL", label_bloco)
 
         # Comandos do bloco
         for comando in lista_comandos:
@@ -192,35 +199,42 @@ class CodeGenerator:
 
         if else_parte:
             # IF-THEN-ELSE
-            label_else = self.novo_label()
+            label_then = self.novo_label()
             label_fim = self.novo_label()
 
-            # JMZ LABEL_ELSE, TEMP_COND
-            self.emitir("JMZ", label_else, temp_cond)
+            # JNZ LABEL_THEN, TEMP_COND (salta se verdadeiro)
+            self.emitir("JNZ", label_then, temp_cond)
 
-            # Comandos then
-            for comando in comandos_then:
+            # Comandos else (executa se falso)
+            _, comandos_else = else_parte
+            for comando in comandos_else:
                 self.visitar(comando)
 
             # JMP LABEL_FIM
             self.emitir("JMP", label_fim)
 
-            # LBL LABEL_ELSE
-            self.emitir("LBL", label_else)
+            # LBL LABEL_THEN
+            self.emitir("LBL", label_then)
 
-            # Comandos else
-            _, comandos_else = else_parte
-            for comando in comandos_else:
+            # Comandos then
+            for comando in comandos_then:
                 self.visitar(comando)
 
             # LBL LABEL_FIM
             self.emitir("LBL", label_fim)
         else:
             # IF-THEN apenas
+            label_then = self.novo_label()
             label_fim = self.novo_label()
 
-            # JMZ LABEL_FIM, TEMP_COND
-            self.emitir("JMZ", label_fim, temp_cond)
+            # JNZ LABEL_THEN, TEMP_COND (salta se verdadeiro)
+            self.emitir("JNZ", label_then, temp_cond)
+
+            # JMP LABEL_FIM (se falso, pula o then)
+            self.emitir("JMP", label_fim)
+
+            # LBL LABEL_THEN
+            self.emitir("LBL", label_then)
 
             # Comandos then
             for comando in comandos_then:

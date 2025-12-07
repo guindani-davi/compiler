@@ -30,7 +30,7 @@ Remove instruções que atribuem valores a variáveis que nunca são lidas poste
 2. **Marcar necessárias**: Marcar instruções que:
    - Produzem valores lidos
    - Têm efeitos colaterais (WRITE, CALL, READ)
-   - Controlam fluxo (JMP, JMZ, LBL)
+   - Controlam fluxo (JMP, JNZ, LBL)
 3. **Remover desnecessárias**: Eliminar instruções não marcadas
 
 #### Exemplo 1: Variável Temporária Não Usada
@@ -100,7 +100,7 @@ Mesmo que não sejam lidas, as seguintes instruções **nunca** são removidas:
 - **READ**: Lê entrada (efeito colateral)
 - **CALL**: Chama função (pode ter efeitos colaterais)
 - **RET**: Retorna de função (controle de fluxo)
-- **JMP, JMZ**: Saltos (controle de fluxo)
+- **JMP, JNZ**: Saltos (controle de fluxo)
 - **LBL**: Labels (destino de saltos)
 - **PUSH, POP**: Manipulação de pilha (necessárias para funções)
 
