@@ -1,0 +1,5 @@
+uv run main.py -l arquivo.sp
+uv run main.py -s arquivo.sp 
+uv run main.py -sem arquivo.sp
+uv run main.py -ci arquivo.sp
+uv run main.py -c arquivo.sp

@@ -1,14 +1,6 @@
-"""
-Analisador Léxico para Pascal Simplificado
-Baseado na gramática sem ambiguidades definida em gramatica.md
-Implementado usando PLY (Python Lex-Yacc)
-"""
-
 import ply.lex as lex
 
-# Lista de tokens
 tokens = (
-    # Palavras reservadas
     "PROGRAM",
     "BEGIN",
     "END",
@@ -27,33 +19,28 @@ tokens = (
     "ARRAY",
     "OF",
     "RECORD",
-    # Identificadores e literais
     "ID",
     "NUMBER",
     "STRING",
-    # Operadores matemáticos
     "PLUS",
     "MINUS",
     "TIMES",
     "DIVIDE",
-    # Operadores lógicos/relacionais
-    "GT",  # >
-    "LT",  # <
-    "EQUALS",  # =
-    "EXCLAMATION",  # !
-    # Símbolos especiais
-    "ASSIGN",  # :=
-    "SEMICOLON",  # ;
-    "COLON",  # :
-    "COMMA",  # ,
-    "DOT",  # .
-    "LPAREN",  # (
-    "RPAREN",  # )
-    "LBRACKET",  # [
-    "RBRACKET",  # ]
+    "GT", 
+    "LT", 
+    "EQUALS",
+    "EXCLAMATION", 
+    "ASSIGN",  
+    "SEMICOLON", 
+    "COLON", 
+    "COMMA", 
+    "DOT", 
+    "LPAREN", 
+    "RPAREN",  
+    "LBRACKET", 
+    "RBRACKET", 
 )
 
-# Palavras reservadas (mapeamento para prioridade)
 reserved = {
     "program": "PROGRAM",
     "begin": "BEGIN",
@@ -75,7 +62,6 @@ reserved = {
     "record": "RECORD",
 }
 
-# Expressões regulares simples para tokens
 t_PLUS = r"\+"
 t_MINUS = r"-"
 t_TIMES = r"\*"
@@ -93,8 +79,6 @@ t_LPAREN = r"\("
 t_RPAREN = r"\)"
 t_LBRACKET = r"\["
 t_RBRACKET = r"\]"
-
-# Expressões regulares complexas (com funções)
 
 
 def t_NUMBER(t):
@@ -116,7 +100,7 @@ def t_STRING(t):
     Strings: sequência alfanumérica entre aspas duplas
     Remove as aspas do valor
     """
-    t.value = t.value[1:-1]  # Remove as aspas
+    t.value = t.value[1:-1]
     return t
 
 
@@ -127,7 +111,7 @@ def t_ID(t):
     Pode conter underscores
     Verifica se é palavra reservada
     """
-    t.type = reserved.get(t.value.lower(), "ID")  # Palavras reservadas têm prioridade
+    t.type = reserved.get(t.value.lower(), "ID")
     return t
 
 
@@ -137,7 +121,7 @@ def t_COMMENT(t):
     Comentários: texto entre chaves { }
     São ignorados pelo analisador léxico
     """
-    pass  # Comentários são descartados
+    pass
 
 
 def t_newline(t):
@@ -148,7 +132,6 @@ def t_newline(t):
     t.lexer.lineno += len(t.value)
 
 
-# Caracteres ignorados (espaços e tabs)
 t_ignore = " \t"
 
 
@@ -161,11 +144,9 @@ def t_error(t):
     t.lexer.skip(1)
 
 
-# Construir o analisador léxico
 lexer = lex.lex()
 
 
-# Função auxiliar para testar o lexer
 def tokenize(data):
     """
     Tokeniza uma string de entrada e retorna lista de tokens
@@ -195,7 +176,6 @@ def print_tokens(data):
 
 
 if __name__ == "__main__":
-    # Teste simples
     test_code = """
     program teste;
     const pi := 3.1415;

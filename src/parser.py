@@ -1,39 +1,25 @@
-"""
-Analisador Sintático para Pascal Simplificado
-Baseado na gramática sem ambiguidades definida em gramatica.md
-Implementado usando PLY (Python Lex-Yacc) - módulo yacc
-"""
-
 import ply.yacc as yacc
 import sys
 import os
 
-# Adiciona o diretório src ao path se necessário
 sys.path.insert(0, os.path.dirname(__file__))
 
 from lexer import tokens, lexer
 
-# Lista para armazenar erros encontrados
 errors = []
 
-# Define a regra inicial da gramática
 start = "programa"
-
-# ==================== PROGRAMA PRINCIPAL ====================
 
 
 def p_programa(p):
     """programa : PROGRAM ID SEMICOLON corpo"""
     p[0] = ("PROGRAMA", p[2], p[4])
-    print(f"✓ Programa '{p[2]}' reconhecido com sucesso")
+    print(f"Programa '{p[2]}' reconhecido com sucesso")
 
 
 def p_corpo(p):
     """corpo : def_const def_tipos def_var lista_func BEGIN lista_comandos END"""
     p[0] = ("CORPO", p[1], p[2], p[3], p[4], p[6])
-
-
-# ==================== CONSTANTES ====================
 
 
 def p_def_const(p):
@@ -63,9 +49,6 @@ def p_const_valor(p):
     """const_valor : STRING
     | NUMBER"""
     p[0] = p[1]
-
-
-# ==================== TIPOS ====================
 
 
 def p_def_tipos(p):
@@ -105,9 +88,6 @@ def p_tipo_dado(p):
         p[0] = ("ARRAY", p[3], p[6])
 
 
-# ==================== VARIÁVEIS ====================
-
-
 def p_def_var(p):
     """def_var : VAR lista_var
     |"""
@@ -140,9 +120,6 @@ def p_lista_id(p):
         p[0] = [p[1]]
 
 
-# ==================== FUNÇÕES ====================
-
-
 def p_lista_func(p):
     """lista_func : funcao lista_func
     |"""
@@ -172,9 +149,6 @@ def p_lista_param(p):
 def p_param_decl(p):
     """param_decl : lista_id COLON tipo_dado"""
     p[0] = ("PARAMETRO", p[1], p[3])
-
-
-# ==================== COMANDOS ====================
 
 
 def p_lista_comandos(p):
@@ -228,9 +202,6 @@ def p_else_parte(p):
         p[0] = None
 
 
-# ==================== LVALUE (lado esquerdo de atribuição) ====================
-
-
 def p_lvalue_id(p):
     """lvalue : ID"""
     p[0] = p[1]
@@ -249,9 +220,6 @@ def p_lvalue_field(p):
 def p_lvalue_array_field(p):
     """lvalue : ID LBRACKET expressao RBRACKET DOT ID"""
     p[0] = ("FIELD_ACCESS", ("ARRAY_ACCESS", p[1], p[3]), p[6])
-
-
-# ==================== EXPRESSÕES ====================
 
 
 def p_expressao_comp(p):
@@ -306,9 +274,6 @@ def p_lista_args(p):
         p[0] = []
 
 
-# ==================== OPERADORES ====================
-
-
 def p_op_comp(p):
     """op_comp : GT
     | LT
@@ -325,15 +290,11 @@ def p_op_arit(p):
     p[0] = p[1]
 
 
-# ==================== PRECEDÊNCIA DE OPERADORES ====================
-
 precedence = (
     ("left", "GT", "LT", "EQUALS", "EXCLAMATION"),
     ("left", "PLUS", "MINUS"),
     ("left", "TIMES", "DIVIDE"),
 )
-
-# ==================== TRATAMENTO DE ERROS ====================
 
 
 def p_error(p):
@@ -344,32 +305,19 @@ def p_error(p):
             f"Token inesperado '{p.value}' (tipo: {p.type})"
         )
         errors.append(error_msg)
-        print(f"✗ {error_msg}")
+        print(f"{error_msg}")
 
-        # Modo pânico: descarta o token e tenta continuar
         parser.errok()
     else:
         error_msg = "Erro sintático: fim de arquivo inesperado"
         errors.append(error_msg)
-        print(f"✗ {error_msg}")
+        print(f"{error_msg}")
 
-
-# ==================== CONSTRUÇÃO DO PARSER ====================
 
 parser = yacc.yacc()
 
 
 def parse(data, debug=False):
-    """
-    Função principal para análise sintática
-
-    Args:
-        data: String com o código fonte
-        debug: Se True, imprime informações de debug
-
-    Returns:
-        Árvore sintática se bem-sucedido, None caso contrário
-    """
     global errors
     errors = []
 
@@ -377,23 +325,14 @@ def parse(data, debug=False):
     result = parser.parse(data, lexer=lexer, debug=debug)
 
     if errors:
-        print(f"\n⚠ {len(errors)} erro(s) sintático(s) encontrado(s)")
+        print(f"\n{len(errors)} erro(s) sintático(s) encontrado(s)")
         return None
     else:
-        print("\n✓ Análise sintática concluída com sucesso!")
+        print("\nAnálise sintática concluída com sucesso!")
         return result
 
 
 def parse_file(filename):
-    """
-    Analisa um arquivo .sp
-
-    Args:
-        filename: Caminho do arquivo
-
-    Returns:
-        Árvore sintática se bem-sucedido, None caso contrário
-    """
     try:
         with open(filename, "r", encoding="utf-8") as f:
             data = f.read()
@@ -406,23 +345,22 @@ def parse_file(filename):
 
         print(f"\n{'='*70}")
         if result:
-            print("Status: SUCESSO ✓")
+            print("Status: SUCESSO")
         else:
-            print("Status: FALHA ✗")
+            print("Status: FALHA")
         print(f"{'='*70}\n")
 
         return result
 
     except FileNotFoundError:
-        print(f"✗ Erro: Arquivo '{filename}' não encontrado")
+        print(f"Erro: Arquivo '{filename}' não encontrado")
         return None
     except Exception as e:
-        print(f"✗ Erro ao processar arquivo: {e}")
+        print(f"Erro ao processar arquivo: {e}")
         return None
 
 
 if __name__ == "____":
-    # Teste simples
     test_code = """
     program teste;
     var
@@ -435,4 +373,4 @@ if __name__ == "____":
     print("=== Teste do Analisador Sintático ===\n")
     result = parse(test_code)
     if result:
-        print("\nPrograma válido!")
+        print("\nPrograma válido")
